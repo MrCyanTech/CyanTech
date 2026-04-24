@@ -29,6 +29,12 @@ h1 {
   text-shadow: 0 0 10px rgba(56,189,248,0.4);
 }
 
+.container {
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(56, 189, 248, 0.15);
+  border-radius: 16px;
+}
 p {
   font-size: 18px;
   color: #cbd5e1;
