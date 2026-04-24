@@ -37,11 +37,11 @@ p {
 
 .button-grid {
   display: grid;
-  grid-template-columns: repeat(2, 200px);
-  grid-template-rows: repeat(2, 60px);
-  gap: 30px;
+  grid-template-columns: repeat(2, 350px);
+  grid-template-rows: repeat(2, 100px);
+  gap: 40px;
   justify-content: center;
-  margin-top: 40px;
+  margin-top: 60px;
 }
 
 .tech-btn {
