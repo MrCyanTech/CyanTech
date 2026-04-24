@@ -1,3 +1,12 @@
+html {
+  background: linear-gradient(-45deg, #0b1b3a, #0f2a5f, #1d4ed8, #38bdf8);
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
 body {
   margin: 0;
   min-height: 100vh;
@@ -7,11 +16,6 @@ body {
   color: white;
   text-align: center;
   font-family: 'Orbitron', sans-serif;
-}
-
-html, body {
-  margin: 0;
-  padding: 0;
 }
 
 @keyframes gradientMove {
