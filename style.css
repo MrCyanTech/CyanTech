@@ -37,9 +37,9 @@ p {
 
 .button-grid {
   display: grid;
-  grid-template-columns: repeat(2, 160px);
+  grid-template-columns: repeat(2, 200px);
   grid-template-rows: repeat(2, 60px);
-  gap: 20px;
+  gap: 30px;
   justify-content: center;
   margin-top: 40px;
 }
