@@ -1,9 +1,18 @@
 body {
-  font-family: 'Orbitron', sans-serif;
-  background-color: #0f172a;
+  margin: 0;
+  height: 100vh;
+  background: linear-gradient(-45deg, #0f172a, #020617, #0b3b5a, #0f172a);
+  background-size: 400% 400%;
+  animation: gradientMove 12s ease infinite;
   color: white;
   text-align: center;
   padding-top: 80px;
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 h1 {
