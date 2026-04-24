@@ -25,6 +25,26 @@
     </div>
     <p id="home-status" class="auth-status">Not logged in.</p>
   </div>
+  <!-- AI Assistant Chat Widget -->
+  <div id="ai-chat-widget" class="ai-chat-widget">
+    <div id="ai-chat-container" class="ai-chat-container hidden">
+      <div class="ai-chat-header">
+        <span>CYAN-AI Assistant</span>
+        <button id="close-chat" class="close-btn">&times;</button>
+      </div>
+      <div id="ai-chat-messages" class="ai-chat-messages">
+        <div class="ai-message ai">Hello! I am CYAN-AI. How can I help you with the platform today?</div>
+      </div>
+      <div class="ai-chat-input-area">
+        <input type="text" id="ai-chat-input" placeholder="Ask a question..." autocomplete="off">
+        <button id="send-chat" class="send-btn">Send</button>
+      </div>
+    </div>
+    <button id="ai-chat-toggle" class="ai-chat-toggle">
+      <span class="ai-icon">AI</span>
+    </button>
+  </div>
+
   <script src="app.js"></script>
 </body>
 </html>
