@@ -5,20 +5,28 @@ html {
 }
 
 body {
+  position: relative;
   margin: 0;
   height: 100%;
-  background: linear-gradient(-45deg, #0b1b3a, #0f2a5f, #1d4ed8, #38bdf8);
-  background-size: 400% 400%;
-  animation: gradientMove 12s ease infinite;
   min-height: 100dvh;
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-y: none;
-  background-attachment: fixed;
   color: white;
   text-align: center;
   font-family: 'Orbitron', sans-serif;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(-45deg, #0b1b3a, #0f2a5f, #1d4ed8, #38bdf8);
+  background-size: 400% 400%;
+  animation: gradientMove 12s ease infinite;
 }
 
 @keyframes gradientMove {
