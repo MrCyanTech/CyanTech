@@ -61,3 +61,16 @@ p {
   transform: translateY(-3px);
   box-shadow: 0 0 18px rgba(56, 189, 248, 0.4);
 }
+
+.auth-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 50px;
+  align-items: center;
+}
+
+.tech-btn.secondary {
+  width: 350px;   /* match grid button width */
+  height: 100px;  /* optional: matches your grid height */
+}
