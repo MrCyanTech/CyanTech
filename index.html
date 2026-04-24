@@ -16,9 +16,21 @@
   <button class="tech-btn">Data Console</button>
 </div>
   <div class="auth-buttons">
-  <button class="tech-btn secondary">Log In (Pending)</button>
-  <button class="tech-btn secondary">Sign Up (Pending)</button>
+  <button id="login-btn" class="tech-btn secondary">Log In</button>
+  <button id="signup-btn" class="tech-btn secondary">Sign Up</button>
 </div>
+
+    <section class="auth-panel" aria-live="polite">
+      <h2 id="auth-title">Account Access</h2>
+      <form id="auth-form">
+        <input id="username-input" type="text" placeholder="Username" autocomplete="username" required>
+        <input id="password-input" type="password" placeholder="Password" autocomplete="current-password" required>
+        <button id="auth-submit" class="tech-btn" type="submit">Continue</button>
+      </form>
+      <p id="auth-status" class="auth-status">Choose Log In or Sign Up to begin.</p>
+      <button id="logout-btn" class="tech-btn logout-btn" type="button" hidden>Log Out</button>
+    </section>
   </div>
+  <script src="app.js"></script>
 </body>
 </html>
