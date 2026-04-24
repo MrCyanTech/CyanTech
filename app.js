@@ -1,9 +1,12 @@
 const STORAGE_USERS_KEY = "cyantechUsers";
 const STORAGE_SESSION_KEY = "cyantechSessionUser";
+const LAB_ALLOWED_USER = "MrCyanTech";
+const LAB_PAGE_PATH = "enter-lab.html";
 
 const loginBtn = document.getElementById("login-btn");
 const signupBtn = document.getElementById("signup-btn");
 const logoutBtn = document.getElementById("logout-btn");
+const enterLabBtn = document.getElementById("enter-lab-btn");
 const authTitle = document.getElementById("auth-title");
 const authForm = document.getElementById("auth-form");
 const authSubmit = document.getElementById("auth-submit");
@@ -91,6 +94,16 @@ logoutBtn.addEventListener("click", () => {
   passwordInput.value = "";
   updateMode("login");
   updateAuthUIForSession();
+});
+
+enterLabBtn.addEventListener("click", () => {
+  const sessionUser = getSessionUser();
+  if (sessionUser !== LAB_ALLOWED_USER) {
+    setStatus(`Access denied. Log in as ${LAB_ALLOWED_USER} to enter the lab.`, true);
+    return;
+  }
+
+  window.location.href = LAB_PAGE_PATH;
 });
 
 authForm.addEventListener("submit", (event) => {
