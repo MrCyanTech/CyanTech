@@ -1,13 +1,15 @@
-html,
+html {
+  margin: 0;
+  height: 100%;
+  background: #0b1b3a;
+}
+
 body {
   margin: 0;
   height: 100%;
   background: linear-gradient(-45deg, #0b1b3a, #0f2a5f, #1d4ed8, #38bdf8);
   background-size: 400% 400%;
   animation: gradientMove 12s ease infinite;
-}
-
-body {
   min-height: 100dvh;
   overflow-y: auto;
   overflow-x: hidden;
@@ -17,10 +19,6 @@ body {
   color: white;
   text-align: center;
   font-family: 'Orbitron', sans-serif;
-}
-
-html {
-  background: #0b1b3a;
 }
 
 @keyframes gradientMove {
