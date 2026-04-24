@@ -35,6 +35,15 @@ body {
   text-align: center;
 }
 
+.top-auth-nav {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  gap: 10px;
+  z-index: 10;
+}
+
 h1 {
   font-size: 52px;
   color: #38bdf8;
@@ -94,6 +103,11 @@ p {
   height: 100px;
 }
 
+.nav-btn {
+  width: 140px;
+  height: 44px;
+}
+
 .auth-panel {
   margin: 40px auto 0;
   max-width: 500px;
@@ -101,6 +115,12 @@ p {
   border: 1px solid rgba(56, 189, 248, 0.2);
   border-radius: 12px;
   background: rgba(2, 6, 23, 0.45);
+}
+
+.auth-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
 }
 
 .auth-panel h2 {
