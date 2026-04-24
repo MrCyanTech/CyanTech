@@ -92,22 +92,4 @@ p {
 .tech-btn.secondary {
   width: 350px;
   height: 100px;
-
-  font-family: 'Orbitron', sans-serif;
-  font-size: 14px;
-
-  color: #e0f2fe;
-  background: rgba(56, 189, 248, 0.08);
-  border: 1px solid rgba(56, 189, 248, 0.6);
-  border-radius: 10px;
-
-  cursor: pointer;
-  transition: all 0.25s ease;
-  box-shadow: 0 0 10px rgba(56, 189, 248, 0.15);
-}
-
-.tech-btn.secondary:hover {
-  background: rgba(56, 189, 248, 0.25);
-  transform: translateY(-3px);
-  box-shadow: 0 0 18px rgba(56, 189, 248, 0.4);
 }
