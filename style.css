@@ -34,3 +34,12 @@ p {
   color: #cbd5e1;
   opacity: 0.9;
 }
+
+.button-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 160px);
+  grid-template-rows: repeat(2, 60px);
+  gap: 20px;
+  justify-content: center;
+  margin-top: 40px;
+}
