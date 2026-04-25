@@ -60,6 +60,48 @@ body::before {
   padding: 30px 40px;
 }
 
+.quote-container {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 0;
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(56, 189, 248, 0.15);
+  border-radius: 16px;
+  text-align: left;
+  overflow: hidden;
+}
+
+.quote-image {
+  width: 300px;
+  height: 100%;
+  object-fit: cover;
+  border-right: 1px solid rgba(56, 189, 248, 0.15);
+}
+
+.quote-content {
+  padding: 40px;
+  flex: 1;
+}
+
+.quote-text {
+  font-size: 22px;
+  line-height: 1.5;
+  color: #e0f2fe;
+  margin-bottom: 20px;
+  font-style: italic;
+}
+
+.quote-author {
+  font-size: 18px;
+  color: #38bdf8;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
 .top-auth-nav {
   position: fixed;
   top: 20px;
