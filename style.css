@@ -104,12 +104,20 @@ body::before {
 .top-auth-nav {
   position: fixed;
   top: 30px;
+  left: 30px;
   right: 30px;
   display: flex;
-  flex-direction: column;
-  gap: 12px;
-  z-index: 10;
-  align-items: flex-end;
+  justify-content: space-between;
+  z-index: 100;
+  pointer-events: none;
+}
+
+.top-auth-nav button {
+  pointer-events: auto;
+}
+
+#signup-btn, #logout-btn {
+  margin-left: auto;
 }
 
 h1 {
@@ -176,8 +184,11 @@ p {
 }
 
 .nav-btn {
-  width: 140px;
-  height: 44px;
+  width: 180px;
+  height: 60px;
+  font-size: 16px;
+  font-weight: 600;
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.25);
 }
 
 .auth-panel {
