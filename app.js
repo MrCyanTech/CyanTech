@@ -1,21 +1,8 @@
-const STORAGE_SESSION_KEY = "cyantechSessionUser";
-const LAB_ALLOWED_USER = "MrCyanTech";
-const LAB_PAGE_PATH = "enter-lab.html";
-const AUTH_PAGE_PATH = "auth.html";
-
 const loginBtn = document.getElementById("login-btn");
 const signupBtn = document.getElementById("signup-btn");
 const logoutBtn = document.getElementById("logout-btn");
 const enterLabBtn = document.getElementById("enter-lab-btn");
 const homeStatus = document.getElementById("home-status");
-
-function clearSessionUser() {
-  localStorage.removeItem(STORAGE_SESSION_KEY);
-}
-
-function getSessionUser() {
-  return localStorage.getItem(STORAGE_SESSION_KEY);
-}
 
 function setHomeStatus(message, isError = false) {
   if (homeStatus) {
@@ -25,7 +12,7 @@ function setHomeStatus(message, isError = false) {
 }
 
 function updateTopAuthState() {
-  const sessionUser = getSessionUser();
+  const sessionUser = FlowEngine.getSessionUser();
   if (sessionUser) {
     setHomeStatus(`Logged in as ${sessionUser}.`);
     if (loginBtn) loginBtn.hidden = true;
@@ -42,23 +29,32 @@ function updateTopAuthState() {
 
 if (loginBtn) {
   loginBtn.addEventListener("click", () => {
-    window.location.href = `${AUTH_PAGE_PATH}?mode=login&redirect=index.html`;
+    FlowEngine.navigate('AUTH', { mode: 'login', redirect: 'index.html' });
   });
 }
 
 if (signupBtn) {
   signupBtn.addEventListener("click", () => {
-    window.location.href = `${AUTH_PAGE_PATH}?mode=signup&redirect=index.html`;
+    FlowEngine.navigate('AUTH', { mode: 'signup', redirect: 'index.html' });
   });
 }
 
 if (logoutBtn) {
   logoutBtn.addEventListener("click", () => {
-    clearSessionUser();
+    FlowEngine.clearSessionUser();
     updateTopAuthState();
   });
 }
 
+if (enterLabBtn) {
+  enterLabBtn.addEventListener("click", () => {
+    if (FlowEngine.canAccessLab()) {
+      FlowEngine.navigate('LAB');
+    } else {
+      setHomeStatus(`Access denied. Log in as ${FlowEngine.LAB_ALLOWED_USER} to enter the lab.`, true);
+    }
+  });
+}
 
 updateTopAuthState();
 

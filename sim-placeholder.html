@@ -48,10 +48,11 @@
     <div id="sim-text" class="typewriter-container"></div>
     
     <div style="display: flex; justify-content: center; margin-top: 50px;">
-      <button id="back-btn" class="tech-btn hidden" style="width: 350px; height: 100px;" onclick="window.location.href='semiconductor-sim.html'">Back</button>
+      <button id="back-btn" class="tech-btn hidden" style="width: 350px; height: 100px;" onclick="FlowEngine.navigate('SEMICONDUCTOR_SIM')">Back</button>
     </div>
   </div>
 
+  <script src="flowEngine.js"></script>
   <script>
     const urlParams = new URLSearchParams(window.location.search);
     const simType = urlParams.get('type') || 'free';

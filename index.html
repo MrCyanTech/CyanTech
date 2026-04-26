@@ -18,10 +18,10 @@
     <h1>CyanTech</h1>
     <p>Semiconductor & Systems Engineering Platform</p>
     <div class="button-grid">
-      <button id="enter-lab-btn" class="tech-btn" onclick="window.location.href='enter-lab.html'">Enter Lab</button>
-      <button class="tech-btn" onclick="window.location.href='under-development.html'">Progress Log</button>
-      <button class="tech-btn" onclick="window.location.href='semiconductor-sim.html'">Semiconductor Sim</button>
-      <button class="tech-btn" onclick="window.location.href='under-development.html'">Data Console</button>
+      <button id="enter-lab-btn" class="tech-btn" onclick="FlowEngine.navigate('LAB')">Enter Lab</button>
+      <button class="tech-btn" onclick="FlowEngine.navigate('UNDER_DEVELOPMENT')">Progress Log</button>
+      <button class="tech-btn" onclick="FlowEngine.navigate('SEMICONDUCTOR_SIM')">Semiconductor Sim</button>
+      <button class="tech-btn" onclick="FlowEngine.navigate('UNDER_DEVELOPMENT')">Data Console</button>
     </div>
     <p id="home-status" class="auth-status">Not logged in.</p>
   </div>
@@ -36,15 +36,15 @@
 
   <div class="container secondary-container">
     <div class="button-grid single-row">
-      <button class="tech-btn" onclick="window.location.href='under-development.html'">Platform Info</button>
-      <button class="tech-btn" onclick="window.location.href='contact.html'">Contact Us</button>
+      <button class="tech-btn" onclick="FlowEngine.navigate('UNDER_DEVELOPMENT')">Platform Info</button>
+      <button class="tech-btn" onclick="FlowEngine.navigate('CONTACT')">Contact Us</button>
     </div>
   </div>
   <!-- AI Assistant Chat Widget -->
   <div id="ai-chat-widget" class="ai-chat-widget">
     <div id="ai-chat-container" class="ai-chat-container hidden">
       <div class="ai-chat-header">
-        <span>CYAN-AI Assistant</span>
+        <h3>CYAN-AI Assistant</h3>
         <button id="close-chat" class="close-btn">&times;</button>
       </div>
       <div id="ai-chat-messages" class="ai-chat-messages">
@@ -60,6 +60,7 @@
     </button>
   </div>
 
+  <script src="flowEngine.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

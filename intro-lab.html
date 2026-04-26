@@ -59,10 +59,11 @@
     <div class="action-area">
       <button id="next-btn" class="tech-btn hidden" style="width: 250px; height: 80px;">Next</button>
       <button id="ok-btn" class="tech-btn hidden" style="width: 250px; height: 80px;">OK</button>
-      <button id="back-btn" class="tech-btn" style="width: 250px; height: 80px;" onclick="window.location.href='enter-lab.html'">Back to Menu</button>
+      <button id="back-btn" class="tech-btn" style="width: 250px; height: 80px;" onclick="FlowEngine.navigate('LAB')">Back to Menu</button>
     </div>
   </div>
 
+  <script src="flowEngine.js"></script>
   <script>
     const container = document.getElementById("intro-text");
     const nextBtn = document.getElementById("next-btn");
@@ -132,12 +133,13 @@
     });
 
     okBtn.addEventListener("click", () => {
-      window.location.href = 'enter-lab.html';
+      FlowEngine.navigate('LAB');
     });
 
     window.onload = () => {
       setTimeout(() => startStage(0), 500);
     };
   </script>
+  <script src="app.js"></script>
 </body>
 </html>
