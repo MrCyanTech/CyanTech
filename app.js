@@ -59,17 +59,6 @@ if (logoutBtn) {
   });
 }
 
-if (enterLabBtn) {
-  enterLabBtn.addEventListener("click", () => {
-    const sessionUser = getSessionUser();
-    if (sessionUser !== LAB_ALLOWED_USER) {
-      setHomeStatus(`Access denied. Log in as ${LAB_ALLOWED_USER} to enter the lab.`, true);
-      return;
-    }
-
-    window.location.href = LAB_PAGE_PATH;
-  });
-}
 
 updateTopAuthState();
 
