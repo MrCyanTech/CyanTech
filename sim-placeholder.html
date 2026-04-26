@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap" rel="stylesheet">
+  <title>Simulation - CyanTech</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .typewriter-container {
+      margin-top: 40px;
+      font-size: 22px;
+      color: #38bdf8;
+      min-height: 150px;
+      line-height: 1.6;
+      text-align: left;
+      padding: 30px;
+      background: rgba(15, 23, 42, 0.5);
+      border-radius: 12px;
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      font-family: 'Orbitron', monospace;
+      white-space: pre-wrap;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 10px;
+      height: 24px;
+      background-color: #38bdf8;
+      margin-left: 5px;
+      animation: blink 0.7s infinite;
+      vertical-align: middle;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    .hidden {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 id="sim-title">SIMULATION</h1>
+    <div id="sim-text" class="typewriter-container"></div>
+    
+    <div style="display: flex; justify-content: center; margin-top: 50px;">
+      <button id="back-btn" class="tech-btn hidden" style="width: 350px; height: 100px;" onclick="window.location.href='semiconductor-sim.html'">Back</button>
+    </div>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const simType = urlParams.get('type') || 'free';
+    const simTitle = simType.toUpperCase() + ' SIMULATION';
+    document.getElementById('sim-title').textContent = simTitle;
+
+    const container = document.getElementById("sim-text");
+    const backBtn = document.getElementById("back-btn");
+    
+    const text = `>> Welcome to the ${simType} simulator.\n\n>> It seems like MrCyanTech hasn't set the simulator up yet. Please check again later!`;
+    let i = 0;
+
+    function typeWriter() {
+      if (i < text.length) {
+        const char = text.charAt(i);
+        container.innerHTML = text.substring(0, i + 1) + '<span class="cursor"></span>';
+        i++;
+        
+        // Pause detection (optional, but requested "pause" in flow)
+        if (char === '.' && text.substring(i-10, i).includes("simulator")) {
+          setTimeout(typeWriter, 1200);
+        } else {
+          setTimeout(typeWriter, 40);
+        }
+      } else {
+        container.innerHTML = text + '<span class="cursor"></span>';
+        backBtn.classList.remove("hidden");
+      }
+    }
+
+    window.onload = () => {
+      setTimeout(typeWriter, 500);
+    };
+  </script>
+</body>
+</html>
