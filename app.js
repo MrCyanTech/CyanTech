@@ -12,7 +12,7 @@ function setHomeStatus(message, isError = false) {
 }
 
 function updateTopAuthState() {
-  const sessionUser = FlowEngine.getSessionUser();
+  const sessionUser = StateManager.getSessionUser();
   if (sessionUser) {
     setHomeStatus(`Logged in as ${sessionUser}.`);
     if (loginBtn) loginBtn.hidden = true;
@@ -29,29 +29,30 @@ function updateTopAuthState() {
 
 if (loginBtn) {
   loginBtn.addEventListener("click", () => {
-    FlowEngine.navigate('AUTH', { mode: 'login', redirect: 'index.html' });
+    NavigationController.navigate('AUTH', { mode: 'login', redirect: 'index.html' });
   });
 }
 
 if (signupBtn) {
   signupBtn.addEventListener("click", () => {
-    FlowEngine.navigate('AUTH', { mode: 'signup', redirect: 'index.html' });
+    NavigationController.navigate('AUTH', { mode: 'signup', redirect: 'index.html' });
   });
 }
 
 if (logoutBtn) {
   logoutBtn.addEventListener("click", () => {
-    FlowEngine.clearSessionUser();
+    AuthService.logout();
     updateTopAuthState();
   });
 }
 
 if (enterLabBtn) {
   enterLabBtn.addEventListener("click", () => {
-    if (FlowEngine.canAccessLab()) {
-      FlowEngine.navigate('LAB');
+    const user = StateManager.getSessionUser();
+    if (FlowRules.ACCESS_POLICIES.LAB(user)) {
+      NavigationController.navigate('LAB');
     } else {
-      setHomeStatus(`Access denied. Log in as ${FlowEngine.LAB_ALLOWED_USER} to enter the lab.`, true);
+      setHomeStatus(`Access denied. Log in as ${FlowRules.LAB_ALLOWED_USER} to enter the lab.`, true);
     }
   });
 }

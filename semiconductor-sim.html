@@ -14,14 +14,18 @@
     
     <div style="display: flex; flex-direction: column; align-items: center; gap: 25px; margin-top: 40px;">
       <div style="display: flex; gap: 30px;">
-        <button class="tech-btn success" style="width: 300px; height: 100px;" onclick="FlowEngine.navigate('SIM_PLACEHOLDER', { type: 'free' })">Free Simulation</button>
-        <button class="tech-btn" style="width: 300px; height: 100px;" onclick="FlowEngine.navigate('SIM_PLACEHOLDER', { type: 'lab' })">Lab Simulation</button>
+        <button class="tech-btn success" style="width: 300px; height: 100px;" onclick="NavigationController.navigate('SIM_PLACEHOLDER', { type: 'free' })">Free Simulation</button>
+        <button class="tech-btn" style="width: 300px; height: 100px;" onclick="NavigationController.navigate('SIM_PLACEHOLDER', { type: 'lab' })">Lab Simulation</button>
       </div>
-      <button onclick="FlowEngine.goHome()" class="tech-btn" style="width: 300px; height: 80px; margin-top: 20px;">Back</button>
+      <button onclick="NavigationController.goHome()" class="tech-btn" style="width: 300px; height: 80px; margin-top: 20px;">Back</button>
     </div>
   </div>
 
+  <script src="stateManager.js"></script>
+  <script src="auth.js"></script>
+  <script src="flowRules.js"></script>
   <script src="flowEngine.js"></script>
+  <script src="navigationController.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

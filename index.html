@@ -18,10 +18,10 @@
     <h1>CyanTech</h1>
     <p>Semiconductor & Systems Engineering Platform</p>
     <div class="button-grid">
-      <button id="enter-lab-btn" class="tech-btn" onclick="FlowEngine.navigate('LAB')">Enter Lab</button>
-      <button class="tech-btn" onclick="FlowEngine.navigate('UNDER_DEVELOPMENT')">Progress Log</button>
-      <button class="tech-btn" onclick="FlowEngine.navigate('SEMICONDUCTOR_SIM')">Semiconductor Sim</button>
-      <button class="tech-btn" onclick="FlowEngine.navigate('UNDER_DEVELOPMENT')">Data Console</button>
+      <button id="enter-lab-btn" class="tech-btn" onclick="NavigationController.navigate('LAB')">Enter Lab</button>
+      <button class="tech-btn" onclick="NavigationController.navigate('UNDER_DEVELOPMENT')">Progress Log</button>
+      <button class="tech-btn" onclick="NavigationController.navigate('SEMICONDUCTOR_SIM')">Semiconductor Sim</button>
+      <button class="tech-btn" onclick="NavigationController.navigate('UNDER_DEVELOPMENT')">Data Console</button>
     </div>
     <p id="home-status" class="auth-status">Not logged in.</p>
   </div>
@@ -36,8 +36,8 @@
 
   <div class="container secondary-container">
     <div class="button-grid single-row">
-      <button class="tech-btn" onclick="FlowEngine.navigate('UNDER_DEVELOPMENT')">Platform Info</button>
-      <button class="tech-btn" onclick="FlowEngine.navigate('CONTACT')">Contact Us</button>
+      <button class="tech-btn" onclick="NavigationController.navigate('UNDER_DEVELOPMENT')">Platform Info</button>
+      <button class="tech-btn" onclick="NavigationController.navigate('CONTACT')">Contact Us</button>
     </div>
   </div>
   <!-- AI Assistant Chat Widget -->
@@ -60,7 +60,11 @@
     </button>
   </div>
 
+  <script src="stateManager.js"></script>
+  <script src="auth.js"></script>
+  <script src="flowRules.js"></script>
   <script src="flowEngine.js"></script>
+  <script src="navigationController.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
