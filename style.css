@@ -168,6 +168,19 @@ p {
   box-shadow: 0 0 18px rgba(56, 189, 248, 0.4);
 }
 
+.tech-btn.success {
+  color: #d1fae5;
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.6);
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.15);
+}
+
+.tech-btn.success:hover {
+  background: rgba(16, 185, 129, 0.25);
+  border-color: rgba(16, 185, 129, 0.8);
+  box-shadow: 0 0 18px rgba(16, 185, 129, 0.4);
+}
+
 /* LOGIN BUTTON STACK */
 .auth-buttons {
   display: flex;
