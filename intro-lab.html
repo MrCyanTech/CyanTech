@@ -7,37 +7,42 @@
   <title>Introductory Lab - CyanTech</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    .animation-container {
+    .typewriter-container {
       margin-top: 40px;
-      font-size: 20px;
+      font-size: 22px;
       color: #38bdf8;
-      min-height: 100px;
-      line-height: 1.8;
+      min-height: 200px;
+      line-height: 1.6;
       text-align: left;
-      padding: 20px;
-      background: rgba(15, 23, 42, 0.3);
-      border-radius: 8px;
-      border: 1px solid rgba(56, 189, 248, 0.1);
+      padding: 30px;
+      background: rgba(15, 23, 42, 0.5);
+      border-radius: 12px;
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      font-family: 'Orbitron', monospace;
+      white-space: pre-wrap;
+      overflow: hidden;
     }
 
-    @keyframes letterIn {
-      0% { opacity: 0; transform: translateY(5px); filter: blur(2px); }
-      100% { opacity: 1; transform: translateY(0); filter: blur(0); }
-    }
-
-    .char {
+    .cursor {
       display: inline-block;
-      opacity: 0;
-      animation: letterIn 0.2s forwards;
+      width: 10px;
+      height: 24px;
+      background-color: #38bdf8;
+      margin-left: 5px;
+      animation: blink 0.7s infinite;
+      vertical-align: middle;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>INTRODUCTORY LAB</h1>
-    <div id="intro-text" class="animation-container">
-      <!-- Animated text will go here -->
-    </div>
+    <div id="intro-text" class="typewriter-container"></div>
     
     <div style="display: flex; justify-content: center; margin-top: 50px;">
       <button onclick="window.location.href='enter-lab.html'" class="tech-btn" style="width: 350px; height: 100px;">Back</button>
@@ -45,27 +50,27 @@
   </div>
 
   <script>
-    const textToAnimate = "Initializing Semiconductor Research Environment... [OK]\nConnection to COSMOS-CORE established... [OK]\nWelcome, Engineer. Your introductory module is ready for access.";
-    const container = document.getElementById('intro-text');
+    const text = ">> Initializing Semiconductor Research Environment...\n>> Connection to COSMOS-CORE established...\n>> Access Granted.\n\nWelcome, Engineer.\nYour introductory module is ready for access.";
+    const container = document.getElementById("intro-text");
+    let i = 0;
 
-    function animate() {
-      const chars = textToAnimate.split('');
-      container.innerHTML = '';
-      chars.forEach((char, index) => {
-        if (char === '\n') {
-          container.appendChild(document.createElement('br'));
-        } else {
-          const span = document.createElement('span');
-          span.className = 'char';
-          span.innerHTML = char === ' ' ? '&nbsp;' : char;
-          span.style.animationDelay = `${index * 0.03}s`;
-          container.appendChild(span);
-        }
-      });
+    function typeWriter() {
+      if (i < text.length) {
+        // Append character
+        const char = text.charAt(i);
+        container.innerHTML = text.substring(0, i + 1) + '<span class="cursor"></span>';
+        i++;
+        setTimeout(typeWriter, 40);
+      } else {
+        // Keep cursor blinking at the end
+        container.innerHTML = text + '<span class="cursor"></span>';
+      }
     }
 
-    document.addEventListener('DOMContentLoaded', animate);
+    // Start after a short delay
+    window.onload = () => {
+      setTimeout(typeWriter, 500);
+    };
   </script>
-  <script src="app.js"></script>
 </body>
 </html>
