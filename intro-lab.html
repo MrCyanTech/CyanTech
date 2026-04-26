@@ -11,7 +11,7 @@
       margin-top: 40px;
       font-size: 22px;
       color: #38bdf8;
-      min-height: 200px;
+      min-height: 250px;
       line-height: 1.6;
       text-align: left;
       padding: 30px;
@@ -20,7 +20,7 @@
       border: 1px solid rgba(56, 189, 248, 0.2);
       font-family: 'Orbitron', monospace;
       white-space: pre-wrap;
-      overflow: hidden;
+      overflow-y: auto;
     }
 
     .cursor {
@@ -37,6 +37,18 @@
       0%, 100% { opacity: 1; }
       50% { opacity: 0; }
     }
+
+    .action-area {
+      display: flex;
+      justify-content: center;
+      margin-top: 40px;
+      gap: 20px;
+      min-height: 100px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
   </style>
 </head>
 <body>
@@ -44,32 +56,87 @@
     <h1>INTRODUCTORY LAB</h1>
     <div id="intro-text" class="typewriter-container"></div>
     
-    <div style="display: flex; justify-content: center; margin-top: 50px;">
-      <button onclick="window.location.href='enter-lab.html'" class="tech-btn" style="width: 350px; height: 100px;">Back</button>
+    <div class="action-area">
+      <button id="next-btn" class="tech-btn hidden" style="width: 250px; height: 80px;">Next</button>
+      <button id="ok-btn" class="tech-btn hidden" style="width: 250px; height: 80px;">OK</button>
+      <button id="back-btn" class="tech-btn" style="width: 250px; height: 80px;" onclick="window.location.href='enter-lab.html'">Back to Menu</button>
     </div>
   </div>
 
   <script>
-    const text = ">> Initializing Semiconductor Research Environment...\n>> Connection to COSMOS-CORE established...\n>> Access Granted.\n\nWelcome, Engineer.\nYour introductory module is ready for access.";
     const container = document.getElementById("intro-text");
-    let i = 0;
+    const nextBtn = document.getElementById("next-btn");
+    const okBtn = document.getElementById("ok-btn");
+    const backBtn = document.getElementById("back-btn");
 
-    function typeWriter() {
-      if (i < text.length) {
-        // Append character
-        const char = text.charAt(i);
-        container.innerHTML = text.substring(0, i + 1) + '<span class="cursor"></span>';
-        i++;
-        setTimeout(typeWriter, 40);
+    const stages = [
+      {
+        text: ">> Initializing Semiconductor Research Environment...\n>> Connection to COSMOS-CORE established...\n>> Access Granted.\n\nWelcome, Engineer.\nYour introductory module is ready for access.",
+        next: 1
+      },
+      {
+        text: "This is the beginning of your journey towards mastering semiconductor materials and device engineering.\n\nThis Lab will present to you the basic foundational knowledge that you will apply for the rest of your journey.",
+        next: 2,
+        pauseAfterFirstLine: true
+      },
+      {
+        text: "Hmm... it seems like MrCyanTech has not developed this far yet. Please check again another time!",
+        final: true
+      }
+    ];
+
+    let currentStage = 0;
+    let charIndex = 0;
+    let typing = false;
+
+    function typeWriter(text, callback) {
+      typing = true;
+      if (charIndex < text.length) {
+        const char = text.charAt(charIndex);
+        container.innerHTML = text.substring(0, charIndex + 1) + '<span class="cursor"></span>';
+        charIndex++;
+        
+        // Handle the specific pause requested in stage 1 (the second stage in 0-index)
+        if (stages[currentStage].pauseAfterFirstLine && char === '\n' && text.substring(0, charIndex).includes("engineering.")) {
+           setTimeout(() => typeWriter(text, callback), 1500); // 1.5s pause
+        } else {
+           setTimeout(() => typeWriter(text, callback), 40);
+        }
       } else {
-        // Keep cursor blinking at the end
         container.innerHTML = text + '<span class="cursor"></span>';
+        typing = false;
+        charIndex = 0;
+        if (callback) callback();
       }
     }
 
-    // Start after a short delay
+    function startStage(index) {
+      currentStage = index;
+      container.innerHTML = '<span class="cursor"></span>';
+      nextBtn.classList.add("hidden");
+      okBtn.classList.add("hidden");
+      
+      const stage = stages[index];
+      typeWriter(stage.text, () => {
+        if (stage.final) {
+          okBtn.classList.remove("hidden");
+        } else {
+          nextBtn.classList.remove("hidden");
+        }
+      });
+    }
+
+    nextBtn.addEventListener("click", () => {
+      if (typing) return;
+      startStage(currentStage + 1);
+    });
+
+    okBtn.addEventListener("click", () => {
+      window.location.href = 'enter-lab.html';
+    });
+
     window.onload = () => {
-      setTimeout(typeWriter, 500);
+      setTimeout(() => startStage(0), 500);
     };
   </script>
 </body>
