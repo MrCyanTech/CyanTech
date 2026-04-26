@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap" rel="stylesheet">
+  <title>Introductory Lab - CyanTech</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .animation-container {
+      margin-top: 40px;
+      font-size: 20px;
+      color: #38bdf8;
+      min-height: 100px;
+      line-height: 1.8;
+      text-align: left;
+      padding: 20px;
+      background: rgba(15, 23, 42, 0.3);
+      border-radius: 8px;
+      border: 1px solid rgba(56, 189, 248, 0.1);
+    }
+
+    @keyframes letterIn {
+      0% { opacity: 0; transform: translateY(5px); filter: blur(2px); }
+      100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+    }
+
+    .char {
+      display: inline-block;
+      opacity: 0;
+      animation: letterIn 0.2s forwards;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>INTRODUCTORY LAB</h1>
+    <div id="intro-text" class="animation-container">
+      <!-- Animated text will go here -->
+    </div>
+    
+    <div style="display: flex; justify-content: center; margin-top: 50px;">
+      <button onclick="window.location.href='enter-lab.html'" class="tech-btn" style="width: 350px; height: 100px;">Back</button>
+    </div>
+  </div>
+
+  <script>
+    const textToAnimate = "Initializing Semiconductor Research Environment... [OK]\nConnection to COSMOS-CORE established... [OK]\nWelcome, Engineer. Your introductory module is ready for access.";
+    const container = document.getElementById('intro-text');
+
+    function animate() {
+      const chars = textToAnimate.split('');
+      chars.forEach((char, index) => {
+        const span = document.createElement('span');
+        span.className = 'char';
+        span.textContent = char === '\n' ? '' : char;
+        if (char === '\n') {
+          container.appendChild(document.createElement('br'));
+        } else {
+          span.style.animationDelay = `${index * 0.03}s`;
+          container.appendChild(span);
+        }
+      });
+    }
+
+    window.onload = animate;
+  </script>
+</body>
+</html>
