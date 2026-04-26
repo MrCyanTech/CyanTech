@@ -13,6 +13,7 @@ const NavigationController = {
     INTRO_LAB: "intro-lab.html",
     SEMICONDUCTOR_SIM: "semiconductor-sim.html",
     SIM_PLACEHOLDER: "sim-placeholder.html",
+    PROGRESS_LOG: "progress-log.html",
     UNDER_DEVELOPMENT: "under-development.html",
     LAB_CONSTRUCTION: "lab-construction.html"
   },

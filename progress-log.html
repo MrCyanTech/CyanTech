@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap" rel="stylesheet">
+  <title>Progress Log - CyanTech</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .typewriter-container {
+      margin-top: 40px;
+      font-size: 22px;
+      color: #38bdf8;
+      min-height: 250px;
+      line-height: 1.6;
+      text-align: left;
+      padding: 30px;
+      background: rgba(15, 23, 42, 0.5);
+      border-radius: 12px;
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      font-family: 'Orbitron', monospace;
+      white-space: pre-wrap;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 10px;
+      height: 24px;
+      background-color: #38bdf8;
+      margin-left: 5px;
+      animation: blink 0.7s infinite;
+      vertical-align: middle;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    .action-area {
+      display: flex;
+      justify-content: center;
+      margin-top: 40px;
+      gap: 20px;
+      min-height: 100px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>PROGRESS LOG</h1>
+    <div id="log-text" class="typewriter-container"></div>
+    
+    <div id="action-area" class="action-area">
+      <button id="yes-btn" class="tech-btn hidden" style="width: 200px; height: 80px;">Yes</button>
+      <button id="no-btn" class="tech-btn hidden" style="width: 200px; height: 80px;">No</button>
+    </div>
+  </div>
+
+  <script src="stateManager.js"></script>
+  <script src="auth.js"></script>
+  <script src="flowRules.js"></script>
+  <script src="flowEngine.js"></script>
+  <script src="navigationController.js"></script>
+  <script src="app.js"></script>
+  <script>
+    const container = document.getElementById("log-text");
+    const yesBtn = document.getElementById("yes-btn");
+    const noBtn = document.getElementById("no-btn");
+
+    let i = 0;
+    let typing = false;
+
+    function typeWriter(text, callback) {
+      typing = true;
+      if (i < text.length) {
+        const char = text.charAt(i);
+        container.innerHTML = text.substring(0, i + 1) + '<span class="cursor"></span>';
+        i++;
+        
+        // Handle the pause after "Hello Engineer!"
+        if (char === '!' && text.includes("Hello Engineer")) {
+           setTimeout(() => typeWriter(text, callback), 1200);
+        } else {
+           setTimeout(() => typeWriter(text, callback), 40);
+        }
+      } else {
+        container.innerHTML = text + '<span class="cursor"></span>';
+        typing = false;
+        i = 0;
+        if (callback) callback();
+      }
+    }
+
+    const introText = "Hello Engineer!\n\nThis is where you see your progress and accomplishments from your journey. Would you like to see yours?";
+
+    function startSequence() {
+      typeWriter(introText, () => {
+        yesBtn.classList.remove("hidden");
+        noBtn.classList.remove("hidden");
+      });
+    }
+
+    yesBtn.addEventListener("click", () => {
+      yesBtn.classList.add("hidden");
+      noBtn.classList.add("hidden");
+      const text = "Hmmm... This hasn't been set up yet. MrCyanTech is working on it. Come back later!";
+      typeWriter(text, () => {
+        setTimeout(() => NavigationController.goHome(), 2500);
+      });
+    });
+
+    noBtn.addEventListener("click", () => {
+      yesBtn.classList.add("hidden");
+      noBtn.classList.add("hidden");
+      const text = "Alright. Sending you back now.";
+      typeWriter(text, () => {
+        setTimeout(() => NavigationController.goHome(), 2500);
+      });
+    });
+
+    window.onload = () => {
+      setTimeout(startSequence, 600);
+    };
+  </script>
+</body>
+</html>
