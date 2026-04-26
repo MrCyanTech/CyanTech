@@ -18,39 +18,58 @@ function getSessionUser() {
 }
 
 function setHomeStatus(message, isError = false) {
-  homeStatus.textContent = message;
-  homeStatus.classList.toggle("error", isError);
+  if (homeStatus) {
+    homeStatus.textContent = message;
+    homeStatus.classList.toggle("error", isError);
+  }
 }
 
 function updateTopAuthState() {
   const sessionUser = getSessionUser();
   if (sessionUser) {
     setHomeStatus(`Logged in as ${sessionUser}.`);
-    loginBtn.hidden = true;
-    signupBtn.hidden = true;
-    logoutBtn.hidden = false;
+    if (loginBtn) loginBtn.hidden = true;
+    if (signupBtn) signupBtn.hidden = true;
+    if (logoutBtn) logoutBtn.hidden = false;
     return;
   }
 
-  loginBtn.hidden = false;
-  signupBtn.hidden = false;
-  logoutBtn.hidden = true;
+  if (loginBtn) loginBtn.hidden = false;
+  if (signupBtn) signupBtn.hidden = false;
+  if (logoutBtn) logoutBtn.hidden = true;
   setHomeStatus("Not logged in.");
 }
 
-loginBtn.addEventListener("click", () => {
-  window.location.href = `${AUTH_PAGE_PATH}?mode=login&redirect=index.html`;
-});
+if (loginBtn) {
+  loginBtn.addEventListener("click", () => {
+    window.location.href = `${AUTH_PAGE_PATH}?mode=login&redirect=index.html`;
+  });
+}
 
-signupBtn.addEventListener("click", () => {
-  window.location.href = `${AUTH_PAGE_PATH}?mode=signup&redirect=index.html`;
-});
+if (signupBtn) {
+  signupBtn.addEventListener("click", () => {
+    window.location.href = `${AUTH_PAGE_PATH}?mode=signup&redirect=index.html`;
+  });
+}
 
-logoutBtn.addEventListener("click", () => {
-  clearSessionUser();
-  updateTopAuthState();
-});
+if (logoutBtn) {
+  logoutBtn.addEventListener("click", () => {
+    clearSessionUser();
+    updateTopAuthState();
+  });
+}
 
+if (enterLabBtn) {
+  enterLabBtn.addEventListener("click", () => {
+    const sessionUser = getSessionUser();
+    if (sessionUser !== LAB_ALLOWED_USER) {
+      setHomeStatus(`Access denied. Log in as ${LAB_ALLOWED_USER} to enter the lab.`, true);
+      return;
+    }
+
+    window.location.href = LAB_PAGE_PATH;
+  });
+}
 
 updateTopAuthState();
 

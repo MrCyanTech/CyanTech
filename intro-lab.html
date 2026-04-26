@@ -50,20 +50,22 @@
 
     function animate() {
       const chars = textToAnimate.split('');
+      container.innerHTML = '';
       chars.forEach((char, index) => {
-        const span = document.createElement('span');
-        span.className = 'char';
-        span.textContent = char === '\n' ? '' : char;
         if (char === '\n') {
           container.appendChild(document.createElement('br'));
         } else {
+          const span = document.createElement('span');
+          span.className = 'char';
+          span.innerHTML = char === ' ' ? '&nbsp;' : char;
           span.style.animationDelay = `${index * 0.03}s`;
           container.appendChild(span);
         }
       });
     }
 
-    window.onload = animate;
+    document.addEventListener('DOMContentLoaded', animate);
   </script>
+  <script src="app.js"></script>
 </body>
 </html>
