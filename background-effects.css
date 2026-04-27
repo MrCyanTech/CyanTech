@@ -9,111 +9,129 @@
   z-index: -1;
   pointer-events: none;
   overflow: hidden;
+  /* Blueprint Grid */
+  background-image: 
+    linear-gradient(rgba(56, 189, 248, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56, 189, 248, 0.05) 1px, transparent 1px);
+  background-size: 50px 50px;
 }
 
 /* Console Data Effect */
 .bg-console-item {
   position: absolute;
   font-family: 'Courier New', Courier, monospace;
-  font-size: 11px;
-  color: rgba(56, 189, 248, 0.25); /* Increased opacity */
+  font-size: 12px;
+  color: rgba(56, 189, 248, 0.35); /* More noticeable */
   white-space: nowrap;
-  animation: bg-scroll 22s linear infinite;
-  letter-spacing: 1px;
+  animation: bg-scroll 25s linear infinite;
+  letter-spacing: 1.5px;
+  text-shadow: 0 0 5px rgba(56, 189, 248, 0.2);
 }
 
 @keyframes bg-scroll {
-  from { transform: translateY(105vh); opacity: 0; }
-  15% { opacity: 0.6; }
-  85% { opacity: 0.6; }
-  to { transform: translateY(-25vh); opacity: 0; }
+  from { transform: translateY(110vh); opacity: 0; }
+  10% { opacity: 0.8; }
+  90% { opacity: 0.8; }
+  to { transform: translateY(-30vh); opacity: 0; }
 }
 
 /* Circuit Breaker / Lightbulb Effect */
 .bg-lightbulb {
   position: absolute;
-  width: 5px;
-  height: 5px;
-  background: #7dd3fc;
+  width: 6px;
+  height: 6px;
+  background: #bae6fd;
   border-radius: 50%;
-  box-shadow: 0 0 12px #38bdf8;
-  opacity: 0.3; /* Increased opacity */
+  box-shadow: 0 0 15px #38bdf8;
+  opacity: 0.4;
+  transition: transform 0.5s ease-out;
 }
 
 .bg-lightbulb.flicker {
-  animation: bg-flicker 5s step-end infinite;
+  animation: bg-flicker 6s step-end infinite;
 }
 
 @keyframes bg-flicker {
-  0%, 100% { opacity: 0.3; box-shadow: 0 0 6px #38bdf8; }
-  48% { opacity: 0.8; box-shadow: 0 0 18px #38bdf8; }
-  50% { opacity: 0.1; }
-  52% { opacity: 0.9; }
-  54% { opacity: 0.2; }
+  0%, 100% { opacity: 0.4; box-shadow: 0 0 8px #38bdf8; }
+  45% { opacity: 1; box-shadow: 0 0 25px #38bdf8; }
+  47% { opacity: 0.1; }
+  49% { opacity: 1; }
+  51% { opacity: 0.2; }
 }
 
 /* Switches / Toggles */
 .bg-switch {
   position: absolute;
-  width: 18px;
-  height: 10px;
-  background: rgba(56, 189, 248, 0.15);
-  border: 1px solid rgba(56, 189, 248, 0.3);
-  border-radius: 5px;
+  width: 20px;
+  height: 12px;
+  background: rgba(56, 189, 248, 0.2);
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  border-radius: 6px;
+}
+
+.bg-switch::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 8px;
+  height: 6px;
+  background: rgba(56, 189, 248, 0.5);
+  border-radius: 3px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .bg-switch.on::after {
   left: 9px;
   background: #34d399;
-  box-shadow: 0 0 8px #10b981;
+  box-shadow: 0 0 12px #10b981;
 }
 
-/* Rotating Gear (Mechanical Engineering) */
+/* Rotating Gear */
 .bg-gear {
   position: absolute;
-  width: 40px;
-  height: 40px;
-  border: 4px dashed rgba(56, 189, 248, 0.15);
+  width: 60px;
+  height: 60px;
+  border: 5px dashed rgba(56, 189, 248, 0.2);
   border-radius: 50%;
-  animation: bg-rotate 15s linear infinite;
-}
-
-@keyframes bg-rotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  animation: bg-rotate 20s linear infinite;
+  opacity: 0.15;
 }
 
 /* Hexagon / Grid Pattern */
 .bg-hex {
   position: absolute;
-  width: 60px;
-  height: 35px;
-  background: rgba(56, 189, 248, 0.03);
+  width: 80px;
+  height: 45px;
+  background: rgba(56, 189, 248, 0.05);
   clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
-  border: 1px solid rgba(56, 189, 248, 0.08);
+  border: 1px solid rgba(56, 189, 248, 0.12);
+  transition: transform 0.8s ease-out;
 }
 
-/* Voltage Wave (Oscilloscope) */
+/* Voltage Wave */
 .bg-wave {
   position: absolute;
-  width: 150px;
-  height: 40px;
-  opacity: 0.2;
+  width: 200px;
+  height: 60px;
+  opacity: 0.3;
   stroke: #38bdf8;
-  stroke-width: 1;
+  stroke-width: 1.5;
   fill: none;
+  filter: drop-shadow(0 0 5px #38bdf8);
 }
 
-/* Simulation Results / Small Charts */
+/* Data Bar Chart */
 .bg-data-bar {
   position: absolute;
-  width: 2.5px;
-  background: rgba(56, 189, 248, 0.3);
+  width: 3px;
+  background: #38bdf8;
   bottom: 0;
-  animation: bg-data-pulse 3s ease-in-out infinite alternate;
+  animation: bg-data-pulse 4s ease-in-out infinite alternate;
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.4);
 }
 
 @keyframes bg-data-pulse {
-  from { height: 5px; opacity: 0.2; }
-  to { height: 35px; opacity: 0.6; }
+  from { height: 10px; opacity: 0.3; }
+  to { height: 50px; opacity: 0.8; }
 }
