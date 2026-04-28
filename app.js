@@ -21,7 +21,14 @@ const initLoadingScreen = () => {
   ];
 
   let progress = 0;
-  const duration = 4000; // 4 seconds
+  // Use sessionStorage to determine if this is the first load of the session
+  const hasLoadedBefore = sessionStorage.getItem('cyanTechLoaded');
+  const duration = hasLoadedBefore ? 2000 : 4000; 
+  
+  if (!hasLoadedBefore) {
+    sessionStorage.setItem('cyanTechLoaded', 'true');
+  }
+
   const interval = 30; 
   const step = 100 / (duration / interval);
 
