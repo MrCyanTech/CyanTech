@@ -12,6 +12,15 @@ const initLoadingScreen = () => {
     return;
   }
 
+  // Consult FlowRules policy based on navigation type
+  const navType = StateManager.getNavigationType();
+  if (!FlowRules.LOADING_CONFIG.SHOULD_SHOW_LOADING(navType)) {
+    console.log("CyanTech: Bypassing loading screen (Back/Forward navigation detected).");
+    loadingScreen.remove();
+    body.classList.remove('loading');
+    return;
+  }
+
   const statusMessages = [
     { threshold: 0, text: "INITIALIZING SYSTEM CORE..." },
     { threshold: 20, text: "ACCESSING QUANTUM MODULES..." },

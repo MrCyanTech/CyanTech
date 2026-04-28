@@ -42,5 +42,13 @@ const StateManager = {
 
   setSystemInitialized() {
     sessionStorage.setItem(this.STORAGE_LOADED_KEY, 'true');
+  },
+
+  getNavigationType() {
+    const entries = performance.getEntriesByType("navigation");
+    if (entries.length > 0) {
+      return entries[0].type; // 'navigate', 'reload', 'back_forward', etc.
+    }
+    return 'navigate';
   }
 };

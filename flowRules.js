@@ -30,6 +30,11 @@ const FlowRules = {
   // Loading Screen Configuration
   LOADING_CONFIG: {
     INITIAL_DURATION: 4000,
-    RETURNING_DURATION: 1500
+    RETURNING_DURATION: 1500,
+    SHOULD_SHOW_LOADING: (navType) => {
+      // Show on first load ('navigate') or manual reload ('reload')
+      // Skip on back/forward navigation
+      return navType !== 'back_forward';
+    }
   }
 };
