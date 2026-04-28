@@ -14,21 +14,6 @@ const AIController = {
         "You are currently accessing the CyanTech Coordinated Engineering Platform. We specialize in radiation-hardened hardware."
       ]
     },
-    SEMICONDUCTORS: {
-      keywords: ["semiconductor", "chip", "wafer", "silicon", "doping", "transistor", "pn junction"],
-      responses: [
-        "Our core research focuses on wide-bandgap semiconductors for high-thermal applications.",
-        "Silicon is our foundation, but we are currently exploring Gallium Nitride (GaN) for next-gen power systems.",
-        "A PN junction is the fundamental building block of most semiconductor devices. You can simulate one in our Simulator module."
-      ]
-    },
-    LAB: {
-      keywords: ["lab", "research", "hardware", "cleanroom", "equipment"],
-      responses: [
-        "The CyanTech Lab is a Class 10 cleanroom environment. Unauthorized access is strictly prohibited.",
-        "Our Lab features state-of-the-art photolithography and ion implantation systems."
-      ]
-    },
     GREETINGS: {
       keywords: ["hello", "hi", "hey", "greetings", "yo"],
       responses: [
