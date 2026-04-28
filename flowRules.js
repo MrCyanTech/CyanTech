@@ -30,6 +30,6 @@ const FlowRules = {
   // Loading Screen Configuration
   LOADING_CONFIG: {
     INITIAL_DURATION: 4000,
-    RETURNING_DURATION: 2000
+    RETURNING_DURATION: 1500
   }
 };
