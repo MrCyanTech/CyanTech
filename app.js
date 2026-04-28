@@ -12,14 +12,19 @@ const initLoadingScreen = () => {
     return;
   }
 
-  // Consult FlowRules policy based on navigation type
+  // Consult FlowRules policy based on navigation type and session state
   const navType = StateManager.getNavigationType();
-  if (!FlowRules.LOADING_CONFIG.SHOULD_SHOW_LOADING(navType)) {
-    console.log("CyanTech: Bypassing loading screen (Back/Forward navigation detected).");
+  const isInitialized = StateManager.getIsSystemInitialized();
+  
+  if (!FlowRules.LOADING_CONFIG.SHOULD_SHOW_LOADING(navType, isInitialized)) {
+    console.log("CyanTech: Bypassing loading screen (Internal navigation or back button detected).");
     loadingScreen.remove();
     body.classList.remove('loading');
     return;
   }
+
+  // Mark as initialized for future internal navigations
+  StateManager.setSystemInitialized();
 
   const statusMessages = [
     { threshold: 0, text: "INITIALIZING SYSTEM CORE..." },
@@ -30,18 +35,7 @@ const initLoadingScreen = () => {
   ];
 
   let progress = 0;
-  // Consult StateManager for session history
-  const isInitialized = StateManager.getIsSystemInitialized();
-  
-  // Consult FlowRules for timing definitions
-  const duration = isInitialized 
-    ? FlowRules.LOADING_CONFIG.RETURNING_DURATION 
-    : FlowRules.LOADING_CONFIG.INITIAL_DURATION;
-  
-  if (!isInitialized) {
-    StateManager.setSystemInitialized();
-  }
-
+  const duration = FlowRules.LOADING_CONFIG.DURATION;
   const interval = 30; 
   const step = 100 / (duration / interval);
 

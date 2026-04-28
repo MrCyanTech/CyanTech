@@ -29,12 +29,10 @@ const FlowRules = {
 
   // Loading Screen Configuration
   LOADING_CONFIG: {
-    INITIAL_DURATION: 4000,
-    RETURNING_DURATION: 1500,
-    SHOULD_SHOW_LOADING: (navType) => {
-      // Show on first load ('navigate') or manual reload ('reload')
-      // Skip on back/forward navigation
-      return navType !== 'back_forward';
+    DURATION: 4000,
+    SHOULD_SHOW_LOADING: (navType, isInitialized) => {
+      // Show only on manual reload or first visit of the session
+      return navType === 'reload' || (navType === 'navigate' && !isInitialized);
     }
   }
 };
