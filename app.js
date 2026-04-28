@@ -21,7 +21,7 @@ const initLoadingScreen = () => {
   ];
 
   let progress = 0;
-  const duration = 3000; // Increased to 3 seconds for visibility
+  const duration = 4000; // 4 seconds
   const interval = 30; 
   const step = 100 / (duration / interval);
 
