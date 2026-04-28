@@ -1,3 +1,69 @@
+// --- Loading Screen Logic ---
+const initLoadingScreen = () => {
+  console.log("CyanTech: Initializing loading screen...");
+  const loadingScreen = document.getElementById('loading-screen');
+  const progressBar = document.getElementById('progress-bar');
+  const loadingPercent = document.getElementById('loading-percent');
+  const loadingStatus = document.getElementById('loading-status');
+  const body = document.body;
+
+  if (!loadingScreen) {
+    console.error("CyanTech: Loading screen element not found!");
+    return;
+  }
+
+  const statusMessages = [
+    { threshold: 0, text: "INITIALIZING SYSTEM CORE..." },
+    { threshold: 20, text: "ACCESSING QUANTUM MODULES..." },
+    { threshold: 45, text: "CALIBRATING NEURAL INTERFACE..." },
+    { threshold: 70, text: "SYNCHRONIZING DATA CONSOLE..." },
+    { threshold: 90, text: "AUTHORIZING SECURE LINK..." }
+  ];
+
+  let progress = 0;
+  const duration = 3000; // Increased to 3 seconds for visibility
+  const interval = 30; 
+  const step = 100 / (duration / interval);
+
+  const loadingInterval = setInterval(() => {
+    progress += step;
+    if (progress > 100) progress = 100;
+
+    if (progressBar) progressBar.style.width = progress + "%";
+    if (loadingPercent) loadingPercent.textContent = Math.floor(progress) + "%";
+
+    // Traditional loop for status messages (better compatibility than findLast)
+    let currentStatus = statusMessages[0];
+    for (let i = statusMessages.length - 1; i >= 0; i--) {
+      if (progress >= statusMessages[i].threshold) {
+        currentStatus = statusMessages[i];
+        break;
+      }
+    }
+
+    if (currentStatus && loadingStatus && loadingStatus.textContent !== currentStatus.text) {
+      loadingStatus.textContent = currentStatus.text;
+    }
+
+    if (progress >= 100) {
+      clearInterval(loadingInterval);
+      console.log("CyanTech: Loading complete, revealing home screen...");
+      
+      setTimeout(() => {
+        loadingScreen.classList.add('fade-out');
+        body.classList.remove('loading');
+        
+        setTimeout(() => {
+          loadingScreen.remove();
+          console.log("CyanTech: Loading screen removed from DOM.");
+        }, 800);
+      }, 500);
+    }
+  }, interval);
+};
+
+initLoadingScreen();
+
 const loginBtn = document.getElementById("login-btn");
 const signupBtn = document.getElementById("signup-btn");
 const logoutBtn = document.getElementById("logout-btn");

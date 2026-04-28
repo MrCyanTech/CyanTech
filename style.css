@@ -447,3 +447,121 @@ p {
   background: rgba(56, 189, 248, 0.2);
   border-radius: 10px;
 }
+
+/* LOADING SCREEN */
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  background: #020617;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: opacity 0.8s ease, visibility 0.8s;
+}
+
+.loading-screen.fade-out {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.loading-content {
+  width: 100%;
+  max-width: 500px;
+  padding: 40px;
+  position: relative;
+}
+
+.loading-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 15px;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.loading-title {
+  font-size: 14px;
+  letter-spacing: 3px;
+  color: #38bdf8;
+  text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+}
+
+.loading-percent {
+  font-size: 24px;
+  color: #7dd3fc;
+  font-weight: 600;
+}
+
+.progress-container {
+  width: 100%;
+  height: 6px;
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.progress-bar {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #0ea5e9, #38bdf8);
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.6);
+  transition: width 0.1s linear;
+}
+
+.loading-status {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 11px;
+  color: #94a3b8;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  min-height: 1.5em;
+}
+
+/* DECORATIONS */
+.scanline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: rgba(56, 189, 248, 0.1);
+  opacity: 0.1;
+  animation: scan 4s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes scan {
+  from { top: -10%; }
+  to { top: 110%; }
+}
+
+.noise {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('https://grainy-gradients.vercel.app/noise.svg');
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 10000;
+}
+
+/* Hide main content during load */
+body.loading {
+  overflow: hidden;
+}
+
+body.loading .container, 
+body.loading .top-auth-nav, 
+body.loading .quote-container,
+body.loading .ai-chat-widget {
+  filter: blur(10px);
+  opacity: 0;
+  visibility: hidden;
+  transition: none !important;
+}

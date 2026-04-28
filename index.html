@@ -8,7 +8,24 @@
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="background-effects.css">
 </head>
-<body>
+<body class="loading">
+  <div id="loading-screen" class="loading-screen">
+    <div class="loading-content">
+      <div class="loading-header">
+        <span class="loading-title">SYSTEM INITIALIZATION</span>
+        <span id="loading-percent" class="loading-percent">0%</span>
+      </div>
+      <div class="progress-container">
+        <div id="progress-bar" class="progress-bar"></div>
+      </div>
+      <div id="loading-status" class="loading-status">ACCESSING CORE MODULES...</div>
+      <div class="loading-decorations">
+        <div class="scanline"></div>
+        <div class="noise"></div>
+      </div>
+    </div>
+  </div>
+
   <div class="top-auth-nav">
     <button id="login-btn" class="tech-btn nav-btn">Log In</button>
     <button id="signup-btn" class="tech-btn nav-btn">Sign Up</button>
