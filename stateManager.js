@@ -31,5 +31,16 @@ const StateManager = {
 
   saveUsers(users) {
     localStorage.setItem(this.STORAGE_USERS_KEY, JSON.stringify(users));
+  },
+
+  // --- Loading & Initialization State ---
+  STORAGE_LOADED_KEY: "cyantechSystemLoaded",
+
+  getIsSystemInitialized() {
+    return sessionStorage.getItem(this.STORAGE_LOADED_KEY) === 'true';
+  },
+
+  setSystemInitialized() {
+    sessionStorage.setItem(this.STORAGE_LOADED_KEY, 'true');
   }
 };

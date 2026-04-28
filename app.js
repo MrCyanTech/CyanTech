@@ -21,12 +21,16 @@ const initLoadingScreen = () => {
   ];
 
   let progress = 0;
-  // Use sessionStorage to determine if this is the first load of the session
-  const hasLoadedBefore = sessionStorage.getItem('cyanTechLoaded');
-  const duration = hasLoadedBefore ? 2000 : 4000; 
+  // Consult StateManager for session history
+  const isInitialized = StateManager.getIsSystemInitialized();
   
-  if (!hasLoadedBefore) {
-    sessionStorage.setItem('cyanTechLoaded', 'true');
+  // Consult FlowRules for timing definitions
+  const duration = isInitialized 
+    ? FlowRules.LOADING_CONFIG.RETURNING_DURATION 
+    : FlowRules.LOADING_CONFIG.INITIAL_DURATION;
+  
+  if (!isInitialized) {
+    StateManager.setSystemInitialized();
   }
 
   const interval = 30; 
