@@ -452,7 +452,7 @@ p {
 .loading-screen {
   position: fixed;
   inset: 0;
-  background: #020617;
+  background: #081a33;
   display: flex;
   justify-content: center;
   align-items: center;
