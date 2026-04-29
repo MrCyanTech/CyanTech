@@ -18,8 +18,8 @@ const AuthService = {
   /**
    * Registers a new user and sets session.
    */
-  async signup(username, password) {
-    const result = await StateManager.signUp(username, password);
+  async signup(email, password, username = "") {
+    const result = await StateManager.signUp(email, password, username);
     if (result.success) {
       return { success: true, username: result.user.email };
     }

@@ -3,6 +3,7 @@ const authForm = document.getElementById("auth-form");
 const authSubmit = document.getElementById("auth-submit");
 const authStatus = document.getElementById("auth-status");
 const emailInput = document.getElementById("email-input");
+const usernameInput = document.getElementById("username-input");
 const passwordInput = document.getElementById("password-input");
 const confirmPasswordInput = document.getElementById("confirm-password-input");
 const switchLoginBtn = document.getElementById("switch-login-btn");
@@ -27,7 +28,11 @@ function updateMode(mode) {
   authTitle.textContent = isLogin ? "Log In" : "Sign Up";
   authSubmit.textContent = isLogin ? "Log In" : "Create Account";
   
-  // Toggle Confirm Password field visibility
+  // Toggle Visibility for Signup-only fields
+  if (usernameInput) {
+    usernameInput.classList.toggle("hidden", isLogin);
+    usernameInput.required = !isLogin;
+  }
   if (confirmPasswordInput) {
     confirmPasswordInput.classList.toggle("hidden", isLogin);
     confirmPasswordInput.required = !isLogin;
@@ -54,6 +59,7 @@ authForm.addEventListener("submit", async (event) => {
 
   const email = emailInput.value.trim();
   const password = passwordInput.value;
+  const username = usernameInput ? usernameInput.value.trim() : "";
   const confirmPassword = confirmPasswordInput ? confirmPasswordInput.value : "";
 
   if (!email || !password) {
@@ -62,17 +68,21 @@ authForm.addEventListener("submit", async (event) => {
   }
 
   if (authMode === "signup") {
+    if (!username) {
+      setStatus("Display Username is required.", true);
+      return;
+    }
     if (password !== confirmPassword) {
       setStatus("Passwords do not match.", true);
       return;
     }
     
-    const result = await AuthService.signup(email, password);
+    const result = await AuthService.signup(email, password, username);
     if (!result.success) {
       setStatus(result.error, true);
       return;
     }
-    setStatus(`Account created. Redirecting as ${email}...`);
+    setStatus(`Account created. Welcome, ${username}!`);
     setTimeout(goBackAfterAuth, 350);
     return;
   }
@@ -82,7 +92,7 @@ authForm.addEventListener("submit", async (event) => {
     setStatus(result.error, true);
     return;
   }
-  setStatus(`Welcome back, ${email}. Redirecting...`);
+  setStatus(`Welcome back. Redirecting...`);
   setTimeout(goBackAfterAuth, 350);
 });
 

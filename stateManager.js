@@ -35,9 +35,15 @@ const StateManager = {
     return null;
   },
 
-  async signUp(email, password) {
+  async signUp(email, password, username = "") {
     if (!supabaseClient) return { success: false, error: "Supabase not initialized" };
-    const { data, error } = await supabaseClient.auth.signUp({ email, password });
+    const { data, error } = await supabaseClient.auth.signUp({ 
+      email, 
+      password,
+      options: {
+        data: { username: username }
+      }
+    });
     if (error) return { success: false, error: error.message };
     return { success: true, user: data.user };
   },
