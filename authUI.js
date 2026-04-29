@@ -3,6 +3,7 @@ const authForm = document.getElementById("auth-form");
 const authSubmit = document.getElementById("auth-submit");
 const authStatus = document.getElementById("auth-status");
 const emailInput = document.getElementById("email-input");
+const confirmEmailInput = document.getElementById("confirm-email-input");
 const usernameInput = document.getElementById("username-input");
 const passwordInput = document.getElementById("password-input");
 const confirmPasswordInput = document.getElementById("confirm-password-input");
@@ -33,6 +34,10 @@ function updateMode(mode) {
     usernameInput.classList.toggle("hidden", isLogin);
     usernameInput.required = !isLogin;
   }
+  if (confirmEmailInput) {
+    confirmEmailInput.classList.toggle("hidden", isLogin);
+    confirmEmailInput.required = !isLogin;
+  }
   if (confirmPasswordInput) {
     confirmPasswordInput.classList.toggle("hidden", isLogin);
     confirmPasswordInput.required = !isLogin;
@@ -58,6 +63,7 @@ authForm.addEventListener("submit", async (event) => {
   event.preventDefault();
 
   const email = emailInput.value.trim();
+  const confirmEmail = confirmEmailInput ? confirmEmailInput.value.trim() : "";
   const password = passwordInput.value;
   const username = usernameInput ? usernameInput.value.trim() : "";
   const confirmPassword = confirmPasswordInput ? confirmPasswordInput.value : "";
@@ -70,6 +76,10 @@ authForm.addEventListener("submit", async (event) => {
   if (authMode === "signup") {
     if (!username) {
       setStatus("Display Username is required.", true);
+      return;
+    }
+    if (email !== confirmEmail) {
+      setStatus("Email addresses do not match.", true);
       return;
     }
     if (password !== confirmPassword) {
