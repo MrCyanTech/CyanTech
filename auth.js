@@ -10,7 +10,8 @@ const AuthService = {
   async login(username, password) {
     const result = await StateManager.signIn(username, password);
     if (result.success) {
-      return { success: true, username: result.user.email };
+      const displayName = result.user.user_metadata?.username || result.user.email;
+      return { success: true, username: displayName };
     }
     return { success: false, error: result.error };
   },
@@ -21,7 +22,8 @@ const AuthService = {
   async signup(email, password, username = "") {
     const result = await StateManager.signUp(email, password, username);
     if (result.success) {
-      return { success: true, username: result.user.email };
+      const displayName = result.user.user_metadata?.username || result.user.email;
+      return { success: true, username: displayName };
     }
     return { success: false, error: result.error };
   },

@@ -30,7 +30,10 @@ const StateManager = {
   async getSessionUser() {
     if (supabaseClient) {
       const { data: { session } } = await supabaseClient.auth.getSession();
-      return session ? session.user.email : null;
+      if (session) {
+        // Return display username if available, otherwise fallback to email
+        return session.user.user_metadata?.username || session.user.email;
+      }
     }
     return null;
   },
