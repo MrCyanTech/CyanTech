@@ -92,8 +92,9 @@ authForm.addEventListener("submit", async (event) => {
       setStatus(result.error, true);
       return;
     }
-    setStatus(`Account created. Welcome, ${username}!`);
-    setTimeout(goBackAfterAuth, 350);
+    setStatus(`Account created! Please check your email for a confirmation link.`);
+    // Don't redirect immediately so they can read the message
+    setTimeout(goBackAfterAuth, 4000); 
     return;
   }
 
