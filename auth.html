@@ -7,14 +7,18 @@
   <title>CyanTech Auth</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="background-effects.css">
+  <style>
+    .hidden { display: none !important; }
+  </style>
 </head>
 <body>
   <div class="container">
     <section class="auth-panel" aria-live="polite">
       <h2 id="auth-title">Account Access</h2>
       <form id="auth-form">
-        <input id="username-input" type="text" placeholder="Username" autocomplete="username" required>
+        <input id="email-input" type="email" placeholder="Email Address" autocomplete="email" required>
         <input id="password-input" type="password" placeholder="Password" autocomplete="current-password" required>
+        <input id="confirm-password-input" type="password" placeholder="Confirm Password" autocomplete="new-password" class="hidden">
         <button id="auth-submit" class="tech-btn" type="submit">Continue</button>
       </form>
       <p id="auth-status" class="auth-status">Choose Log In or Sign Up to begin.</p>

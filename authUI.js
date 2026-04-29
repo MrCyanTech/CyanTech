@@ -1,28 +1,16 @@
-
 const authTitle = document.getElementById("auth-title");
 const authForm = document.getElementById("auth-form");
 const authSubmit = document.getElementById("auth-submit");
 const authStatus = document.getElementById("auth-status");
-const usernameInput = document.getElementById("username-input");
+const emailInput = document.getElementById("email-input");
 const passwordInput = document.getElementById("password-input");
+const confirmPasswordInput = document.getElementById("confirm-password-input");
 const switchLoginBtn = document.getElementById("switch-login-btn");
 const switchSignupBtn = document.getElementById("switch-signup-btn");
 
 const queryParams = new URLSearchParams(window.location.search);
 const redirectPath = queryParams.get("redirect") || "index.html";
 let authMode = queryParams.get("mode") === "signup" ? "signup" : "login";
-
-function getUsers() {
-  return StateManager.getUsers();
-}
-
-function saveUsers(users) {
-  StateManager.saveUsers(users);
-}
-
-function setSessionUser(username) {
-  StateManager.setSessionUser(username);
-}
 
 function setStatus(message, isError = false) {
   authStatus.textContent = message;
@@ -38,11 +26,18 @@ function updateMode(mode) {
   const isLogin = mode === "login";
   authTitle.textContent = isLogin ? "Log In" : "Sign Up";
   authSubmit.textContent = isLogin ? "Log In" : "Create Account";
+  
+  // Toggle Confirm Password field visibility
+  if (confirmPasswordInput) {
+    confirmPasswordInput.classList.toggle("hidden", isLogin);
+    confirmPasswordInput.required = !isLogin;
+  }
+
   passwordInput.autocomplete = isLogin ? "current-password" : "new-password";
   setStatus(
     isLogin
-      ? "Enter your credentials to log in."
-      : "Create a test account for this browser."
+      ? "Enter your email and password to log in."
+      : "Create your CyanTech account."
   );
 }
 
@@ -57,31 +52,37 @@ switchSignupBtn.addEventListener("click", () => {
 authForm.addEventListener("submit", async (event) => {
   event.preventDefault();
 
-  const username = usernameInput.value.trim();
+  const email = emailInput.value.trim();
   const password = passwordInput.value;
+  const confirmPassword = confirmPasswordInput ? confirmPasswordInput.value : "";
 
-  if (!username || !password) {
-    setStatus("Username and password are required.", true);
+  if (!email || !password) {
+    setStatus("Email and password are required.", true);
     return;
   }
 
   if (authMode === "signup") {
-    const result = await AuthService.signup(username, password);
+    if (password !== confirmPassword) {
+      setStatus("Passwords do not match.", true);
+      return;
+    }
+    
+    const result = await AuthService.signup(email, password);
     if (!result.success) {
       setStatus(result.error, true);
       return;
     }
-    setStatus(`Account created. Redirecting as ${username}...`);
+    setStatus(`Account created. Redirecting as ${email}...`);
     setTimeout(goBackAfterAuth, 350);
     return;
   }
 
-  const result = await AuthService.login(username, password);
+  const result = await AuthService.login(email, password);
   if (!result.success) {
     setStatus(result.error, true);
     return;
   }
-  setStatus(`Welcome back, ${username}. Redirecting...`);
+  setStatus(`Welcome back, ${email}. Redirecting...`);
   setTimeout(goBackAfterAuth, 350);
 });
 
