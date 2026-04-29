@@ -23,11 +23,12 @@ const NavigationController = {
    * @param {string} routeKey - Key from ROUTES or direct URL.
    * @param {Object} params - Query parameters.
    */
-  navigate(routeKey, params = {}) {
+  async navigate(routeKey, params = {}) {
     // 1. Prepare current state for decision making
+    const currentUser = await StateManager.getSessionUser();
     const state = {
-      user: StateManager.getSessionUser(),
-      isAuthenticated: !!StateManager.getSessionUser()
+      user: currentUser,
+      isAuthenticated: !!currentUser
     };
 
     // 2. Consult FlowEngine for permission/redirection

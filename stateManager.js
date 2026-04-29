@@ -1,24 +1,77 @@
 /**
  * stateManager.js
  * Responsibility: Handles ALL user state management (session persistence, identity).
+ * Integration: Supabase (Minimalist)
  */
+
+// --- Supabase Initialization ---
+// Replace with your actual credentials
+const SUPABASE_URL = "https://fbjolvsdacofrpajpzqm.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZiam9sdnNkYWNvZnJwYWpwenFtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5OTU4NzAsImV4cCI6MjA5MjU3MTg3MH0.kMldTBWcmdk_l_izQ9g51kdc3czOOJEIKT_FYJxuUys";
+
+let supabaseClient;
+try {
+  if (typeof supabase !== 'undefined') {
+    supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    console.log("CyanTech: Supabase client initialized.");
+  } else {
+    console.warn("CyanTech: Supabase SDK not found. Falling back to local storage.");
+  }
+} catch (e) {
+  console.error("CyanTech: Failed to initialize Supabase", e);
+}
 
 const StateManager = {
   STORAGE_SESSION_KEY: "cyantechSessionUser",
   STORAGE_USERS_KEY: "cyantechUsers",
 
-  getSessionUser() {
+  /**
+   * Returns the current session user.
+   * Supabase integration: Uses supabase.auth.getSession()
+   */
+  async getSessionUser() {
+    if (supabaseClient) {
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      return session ? session.user.email : null;
+    }
     return localStorage.getItem(this.STORAGE_SESSION_KEY);
   },
 
+  async signUp(email, password) {
+    if (!supabaseClient) return { success: false, error: "Supabase not initialized" };
+    const { data, error } = await supabaseClient.auth.signUp({ email, password });
+    if (error) return { success: false, error: error.message };
+    return { success: true, user: data.user };
+  },
+
+  async signIn(email, password) {
+    if (!supabaseClient) return { success: false, error: "Supabase not initialized" };
+    const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+    if (error) return { success: false, error: error.message };
+    return { success: true, user: data.user };
+  },
+
+  /**
+   * Sets the session user.
+   */
   setSessionUser(username) {
     localStorage.setItem(this.STORAGE_SESSION_KEY, username);
   },
 
-  clearSessionUser() {
+  /**
+   * Clears the session user.
+   */
+  async clearSessionUser() {
+    if (supabaseClient) {
+      await supabaseClient.auth.signOut();
+    }
     localStorage.removeItem(this.STORAGE_SESSION_KEY);
   },
 
+  /**
+   * Retrieves user list (Legacy/Mock).
+   * Supabase integration: In a real app, this would query a 'profiles' table.
+   */
   getUsers() {
     try {
       const usersRaw = localStorage.getItem(this.STORAGE_USERS_KEY);
@@ -29,6 +82,9 @@ const StateManager = {
     }
   },
 
+  /**
+   * Saves user list (Legacy/Mock).
+   */
   saveUsers(users) {
     localStorage.setItem(this.STORAGE_USERS_KEY, JSON.stringify(users));
   },

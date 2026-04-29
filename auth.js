@@ -7,7 +7,17 @@ const AuthService = {
   /**
    * Validates credentials and sets session if successful.
    */
-  login(username, password) {
+  async login(username, password) {
+    // If username is an email, use Supabase, otherwise fallback to local users
+    if (username.includes("@")) {
+      const result = await StateManager.signIn(username, password);
+      if (result.success) {
+        return { success: true, username: result.user.email };
+      }
+      return { success: false, error: result.error };
+    }
+
+    // Legacy Fallback
     const users = StateManager.getUsers();
     const storedPassword = users[username];
 
@@ -21,7 +31,16 @@ const AuthService = {
   /**
    * Registers a new user and sets session.
    */
-  signup(username, password) {
+  async signup(username, password) {
+    if (username.includes("@")) {
+      const result = await StateManager.signUp(username, password);
+      if (result.success) {
+        return { success: true, username: result.user.email };
+      }
+      return { success: false, error: result.error };
+    }
+
+    // Legacy Fallback
     const users = StateManager.getUsers();
     if (users[username]) {
       return { success: false, error: "Username already exists" };
@@ -36,14 +55,14 @@ const AuthService = {
   /**
    * Terminates the current session.
    */
-  logout() {
-    StateManager.clearSessionUser();
+  async logout() {
+    await StateManager.clearSessionUser();
   },
 
   /**
    * Checks if a session is currently active.
    */
-  isAuthenticated() {
-    return !!StateManager.getSessionUser();
+  async isAuthenticated() {
+    return !!(await StateManager.getSessionUser());
   }
 };

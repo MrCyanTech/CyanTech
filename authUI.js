@@ -54,7 +54,7 @@ switchSignupBtn.addEventListener("click", () => {
   updateMode("signup");
 });
 
-authForm.addEventListener("submit", (event) => {
+authForm.addEventListener("submit", async (event) => {
   event.preventDefault();
 
   const username = usernameInput.value.trim();
@@ -66,7 +66,7 @@ authForm.addEventListener("submit", (event) => {
   }
 
   if (authMode === "signup") {
-    const result = AuthService.signup(username, password);
+    const result = await AuthService.signup(username, password);
     if (!result.success) {
       setStatus(result.error, true);
       return;
@@ -76,7 +76,7 @@ authForm.addEventListener("submit", (event) => {
     return;
   }
 
-  const result = AuthService.login(username, password);
+  const result = await AuthService.login(username, password);
   if (!result.success) {
     setStatus(result.error, true);
     return;

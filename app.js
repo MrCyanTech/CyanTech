@@ -91,8 +91,8 @@ function setHomeStatus(message, isError = false) {
   }
 }
 
-function updateTopAuthState() {
-  const sessionUser = StateManager.getSessionUser();
+async function updateTopAuthState() {
+  const sessionUser = await StateManager.getSessionUser();
   if (sessionUser) {
     setHomeStatus(`Logged in as ${sessionUser}.`);
     if (loginBtn) loginBtn.hidden = true;
@@ -120,15 +120,15 @@ if (signupBtn) {
 }
 
 if (logoutBtn) {
-  logoutBtn.addEventListener("click", () => {
-    AuthService.logout();
-    updateTopAuthState();
+  logoutBtn.addEventListener("click", async () => {
+    await AuthService.logout();
+    await updateTopAuthState();
   });
 }
 
 if (enterLabBtn) {
-  enterLabBtn.addEventListener("click", () => {
-    const user = StateManager.getSessionUser();
+  enterLabBtn.addEventListener("click", async () => {
+    const user = await StateManager.getSessionUser();
     if (FlowRules.ACCESS_POLICIES.LAB(user)) {
       NavigationController.navigate('LAB');
     } else {

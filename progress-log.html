@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -33,8 +34,15 @@
     }
 
     @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0;
+      }
     }
 
     .action-area {
@@ -51,11 +59,12 @@
   </style>
   <link rel="stylesheet" href="background-effects.css">
 </head>
+
 <body>
   <div class="container">
     <h1>PROGRESS LOG</h1>
     <div id="log-text" class="typewriter-container"></div>
-    
+
     <div id="action-area" class="action-area">
       <button id="yes-btn" class="tech-btn hidden" style="width: 200px; height: 80px;">Yes</button>
       <button id="no-btn" class="tech-btn hidden" style="width: 200px; height: 80px;">No</button>
@@ -84,12 +93,12 @@
         const char = text.charAt(i);
         container.innerHTML = text.substring(0, i + 1) + '<span class="cursor"></span>';
         i++;
-        
+
         // Handle the pause after "Hello Engineer!"
         if (char === '!' && text.includes("Hello Engineer")) {
-           setTimeout(() => typeWriter(text, callback), 1200);
+          setTimeout(() => typeWriter(text, callback), 1200);
         } else {
-           setTimeout(() => typeWriter(text, callback), 40);
+          setTimeout(() => typeWriter(text, callback), 40);
         }
       } else {
         container.innerHTML = text + '<span class="cursor"></span>';
@@ -131,4 +140,5 @@
     };
   </script>
 </body>
+
 </html>
