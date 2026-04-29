@@ -23,18 +23,16 @@ try {
 
 const StateManager = {
   STORAGE_SESSION_KEY: "cyantechSessionUser",
-  STORAGE_USERS_KEY: "cyantechUsers",
 
   /**
-   * Returns the current session user.
-   * Supabase integration: Uses supabase.auth.getSession()
+   * Returns the current session user from Supabase.
    */
   async getSessionUser() {
     if (supabaseClient) {
       const { data: { session } } = await supabaseClient.auth.getSession();
       return session ? session.user.email : null;
     }
-    return localStorage.getItem(this.STORAGE_SESSION_KEY);
+    return null;
   },
 
   async signUp(email, password) {
@@ -52,41 +50,12 @@ const StateManager = {
   },
 
   /**
-   * Sets the session user.
-   */
-  setSessionUser(username) {
-    localStorage.setItem(this.STORAGE_SESSION_KEY, username);
-  },
-
-  /**
-   * Clears the session user.
+   * Clears the current Supabase session.
    */
   async clearSessionUser() {
     if (supabaseClient) {
       await supabaseClient.auth.signOut();
     }
-    localStorage.removeItem(this.STORAGE_SESSION_KEY);
-  },
-
-  /**
-   * Retrieves user list (Legacy/Mock).
-   * Supabase integration: In a real app, this would query a 'profiles' table.
-   */
-  getUsers() {
-    try {
-      const usersRaw = localStorage.getItem(this.STORAGE_USERS_KEY);
-      return usersRaw ? JSON.parse(usersRaw) : {};
-    } catch (e) {
-      console.error("Failed to parse users from storage", e);
-      return {};
-    }
-  },
-
-  /**
-   * Saves user list (Legacy/Mock).
-   */
-  saveUsers(users) {
-    localStorage.setItem(this.STORAGE_USERS_KEY, JSON.stringify(users));
   },
 
   // --- Loading & Initialization State ---
