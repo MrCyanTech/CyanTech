@@ -40,11 +40,11 @@ const StateManager = {
 
   async signUp(email, password, username = "") {
     if (!supabaseClient) return { success: false, error: "Supabase not initialized" };
-    const { data, error } = await supabaseClient.auth.signUp({ 
-      email, 
+    const { data, error } = await supabaseClient.auth.signUp({
+      email,
       password,
       options: {
-        data: { 
+        data: {
           username: username,
           full_name: username // Supabase Dashboard looks for this specific key to fill the "Display Name" column
         }
@@ -75,7 +75,7 @@ const StateManager = {
    */
   async getAIResponse(message) {
     if (!supabaseClient) return "Error: AI services are currently disconnected.";
-    
+
     try {
       // NOTE: Ensure your Edge Function in Supabase is named exactly 'chat' or update the name below
       const { data, error } = await supabaseClient.functions.invoke('chat', {
