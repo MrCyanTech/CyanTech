@@ -70,6 +70,26 @@ const StateManager = {
     }
   },
 
+  /**
+   * Invokes the Supabase Edge Function to get an AI response.
+   */
+  async getAIResponse(message) {
+    if (!supabaseClient) return "Error: AI services are currently disconnected.";
+    
+    try {
+      // NOTE: Ensure your Edge Function in Supabase is named exactly 'chat' or update the name below
+      const { data, error } = await supabaseClient.functions.invoke('chat', {
+        body: { message }
+      });
+
+      if (error) throw error;
+      return data.response || "No response received from AI core.";
+    } catch (e) {
+      console.error("AI Function Error:", e);
+      return "Communication error with AI core. Please try again later.";
+    }
+  },
+
   // --- Loading & Initialization State ---
   STORAGE_LOADED_KEY: "cyantechSystemLoaded",
 

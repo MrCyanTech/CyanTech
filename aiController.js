@@ -36,38 +36,15 @@ const AIController = {
   /**
    * Generates a sophisticated response based on input, context, and state.
    * @param {string} input - The user's query.
-   * @returns {string} The AI's response.
+   * @returns {Promise<string>} The AI's response.
    */
-  getResponse(input) {
-    const query = input.toLowerCase();
-    const user = StateManager.getSessionUser();
-    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-
-    // 1. Identity Check
-    if (query.includes("who am i") || query.includes("my name")) {
-      return user ? `You are recognized as ${user}, authorized Engineer.` : "You are currently an Anonymous Guest. Please log in for full identification.";
-    }
-
-    // 2. Context Check (e.g., "where am i", "what is this place")
-    if (query.includes("where am i") || query.includes("current location") || (query.includes("what") && query.includes("here"))) {
-      return this.PAGE_CONTEXTS[currentPage] || "You are within the CyanTech digital ecosystem.";
-    }
-
-    // 3. Knowledge Base Matching
-    for (const category in this.KNOWLEDGE) {
-      if (this.KNOWLEDGE[category].keywords.some(k => query.includes(k))) {
-        const options = this.KNOWLEDGE[category].responses;
-        return options[Math.floor(Math.random() * options.length)];
-      }
-    }
-
-    // 4. Suggestion Engine (if query is vague)
-    if (query.length < 10) {
-      return "I require more specific parameters. Would you like to know about our 'Semiconductor' research or access the 'Lab'?";
-    }
-
-    // 5. Default Response
-    return "Query analyzed, but specific data is missing from my local archives. Try asking about Semiconductors, the Lab, or your current progress.";
+  async getResponse(input) {
+    // Show a small processing log
+    console.log(`[CYAN-AI] Sending query to Edge Function: "${input}"`);
+    
+    // Call the Supabase Edge Function via our StateManager
+    const response = await StateManager.getAIResponse(input);
+    return response;
   },
 
   /**

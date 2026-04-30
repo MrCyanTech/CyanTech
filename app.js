@@ -162,18 +162,22 @@ function addMessage(text, sender) {
   aiChatMessages.scrollTop = aiChatMessages.scrollHeight;
 }
 
-function handleSendMessage() {
+async function handleSendMessage() {
   const text = aiChatInput.value.trim();
   if (!text) return;
 
   addMessage(text, "user");
   aiChatInput.value = "";
 
-  // Simulate AI typing delay
-  setTimeout(() => {
-    const response = AIController.getResponse(text);
+  // Show a temporary "thinking" message or just disable input if desired
+  // For now, we will just await the response directly
+  try {
+    const response = await AIController.getResponse(text);
     addMessage(response, "ai");
-  }, 600);
+  } catch (error) {
+    console.error("Chat Error:", error);
+    addMessage("Connection to AI core interrupted.", "ai");
+  }
 }
 
 aiChatToggle.addEventListener("click", toggleChat);
