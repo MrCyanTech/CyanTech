@@ -34,12 +34,8 @@ const AIController = {
   },
 
   async getResponse(input) {
-    console.log(`[Saartche] Sending query to Edge Function: "${input}"`);
-    
-    // [DEBUGGING] Temporarily simplified context payload to isolate OpenRouter failure.
-    // The backend is currently rejecting the payload, completely disabled context parameter.
+    console.log(`[Saartche] Sending query: "${input}"`);
     const response = await StateManager.getAIResponse(input);
-    
     return response;
   },
 

@@ -71,36 +71,24 @@ const StateManager = {
   },
 
   /**
-   * Invokes the Supabase Edge Function to get an AI response.
+   * Invokes the Supabase Edge Function (Gemini 1.5 Flash) to get an AI response.
    */
-  async getAIResponse(message, context = {}) {
+  async getAIResponse(message) {
     if (!supabaseClient) return "Error: AI services are currently disconnected.";
 
     try {
-      // NOTE: Ensure your Edge Function in Supabase is named exactly 'chat' or update the name below
       const { data, error } = await supabaseClient.functions.invoke('chat-ai', {
-        body: { 
-          message: message
-          // [DEBUGGING] Context temporarily disabled
-        }
+        body: { message }
       });
 
-
       if (error) throw error;
-      
-      console.log("[Saartche] Raw Data Received:", data);
 
-      // Intelligently parse the response depending on how the Edge Function formatted it
-      const aiText = data.response 
-                  || data.choices?.[0]?.message?.content // Raw OpenRouter/OpenAI format
-                  || data.reply 
-                  || data.message
-                  || (typeof data === 'string' ? data : null);
+      console.log("[Saartche] Response received:", data);
 
-      return aiText || "No response received from AI core. Check the browser console to see the raw data format.";
+      return data.reply || "No response received from Saartche.";
     } catch (e) {
-      console.error("AI Function Error:", e);
-      return "Communication error with AI core. Please try again later.";
+      console.error("[Saartche] Edge Function Error:", e);
+      return "Communication error with Saartche. Please try again later.";
     }
   },
 
