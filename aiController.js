@@ -36,9 +36,17 @@ const AIController = {
   async getResponse(input) {
     console.log(`[CYAN-AI] Sending query to Edge Function: "${input}"`);
     
-    // Call the Supabase Edge Function, passing the exact context payload required by the backend
+    // Gather rich context from the frontend
+    const user = await StateManager.getSessionUser();
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    const pageDescription = this.PAGE_CONTEXTS[currentPage] || "You are within the CyanTech digital ecosystem.";
+    
+    // Pass a heavily enriched context object so the backend AI knows exactly what is going on
     const response = await StateManager.getAIResponse(input, {
-      currentPage: window.location.pathname
+      currentPage: currentPage,
+      pageDescription: pageDescription,
+      userStatus: user ? `Authorized Engineer (ID: ${user})` : 'Unidentified Guest',
+      platformInfo: "CyanTech is an advanced engineering environment specialized in semiconductor research and space-grade systems. Tone should be concise, professional, and sci-fi high-tech."
     });
     
     return response;
