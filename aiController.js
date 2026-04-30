@@ -38,32 +38,13 @@ const AIController = {
 
     const user = await StateManager.getSessionUser();
     const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-    const pageDescription = this.PAGE_CONTEXTS[currentPage] || "Unknown page.";
+    const pageDescription = this.PAGE_CONTEXTS[currentPage] || "You are within the CyanTech digital ecosystem.";
 
     const response = await StateManager.getAIResponse(input, {
-      systemPrompt: [
-        "You are Saartche, a strict in-app assistant for the CyanTech platform.",
-        "Help users navigate and use THIS app only.",
-        "Only use information explicitly provided below. Never invent features, buttons, or pages.",
-        "If something is not known, say: I don't have that information. Can you clarify?",
-        "Be concise and structured. Use numbered steps for actions. Keep responses under 10 lines.",
-        "Do not be chatty. Do not tell stories. Do not add suggestions unless asked.",
-        "Tone: calm, professional, instructional."
-      ].join(" "),
       currentPage: currentPage,
       pageDescription: pageDescription,
-      user: user ? { loggedIn: true, displayName: user } : { loggedIn: false },
-      appPages: {
-        "Enter Lab": "Opens the secure research laboratory entry point.",
-        "Semiconductor Sim": "Opens a simulation environment to model hardware characteristics before fabrication.",
-        "Progress Log": "Opens a tracker documenting milestones achieved during the session.",
-        "Data Console": "Under development. Not yet available.",
-        "Platform Info": "Under development. Not yet available.",
-        "Contact Us": "Opens a communication page to reach the CyanTech team.",
-        "Log In": "Opens the authentication page to sign into an existing account.",
-        "Sign Up": "Opens the authentication page to create a new account.",
-        "Log Out": "Signs the current user out and clears the session."
-      }
+      userStatus: user ? `Authorized Engineer (ID: ${user})` : 'Unidentified Guest',
+      platformInfo: "CyanTech is an advanced engineering environment specialized in semiconductor research and space-grade systems. You are Saartche, the platform's AI assistant. Respond concisely in a professional, high-tech engineering tone. Available navigation: Enter Lab (research laboratory), Semiconductor Sim (hardware simulation), Progress Log (milestone tracker), Data Console (under development), Platform Info (under development), Contact Us (admin communication)."
     });
 
     return response;
