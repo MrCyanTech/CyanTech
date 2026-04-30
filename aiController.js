@@ -46,7 +46,16 @@ const AIController = {
       currentPage: currentPage,
       pageDescription: pageDescription,
       userStatus: user ? `Authorized Engineer (ID: ${user})` : 'Unidentified Guest',
-      platformInfo: "CyanTech is an advanced engineering environment specialized in semiconductor research and space-grade systems. Tone should be concise, professional, and sci-fi high-tech."
+      platformInfo: `
+CyanTech is an advanced engineering environment specialized in semiconductor research and space-grade systems. Tone should be concise, professional, and sci-fi high-tech.
+AVAILABLE PLATFORM NAVIGATION OPTIONS:
+1. Enter Lab: The main entry point to the secure research laboratory.
+2. Semiconductor Sim: A simulation environment to model hardware characteristics before physical fabrication.
+3. Progress Log: A tracking system documenting every milestone achieved during the engineering session.
+4. Data Console: Advanced telemetry and data visualization (Currently Under Development).
+5. Platform Info: Detailed specifications of the CyanTech architecture (Currently Under Development).
+6. Contact Us: Communication relay to reach the CyanTech administrative team.
+      `.trim()
     });
     
     return response;
