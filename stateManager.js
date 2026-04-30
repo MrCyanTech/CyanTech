@@ -83,9 +83,23 @@ const StateManager = {
 
       if (error) throw error;
 
+      // Debug: log the full structure so we can see exactly what key holds the text
       console.log("[Saartche] Response received:", data);
+      console.log("[Saartche] Type:", typeof data);
+      if (data && typeof data === 'object') {
+        console.log("[Saartche] Keys:", Object.keys(data));
+      }
 
-      return data.reply || "No response received from Saartche.";
+      // Handle every possible response format
+      if (typeof data === 'string') return data;
+      if (data?.reply) return data.reply;
+      if (data?.response) return data.response;
+      if (data?.message) return data.message;
+      if (data?.text) return data.text;
+      if (data?.content) return data.content;
+      if (data?.choices?.[0]?.message?.content) return data.choices[0].message.content;
+
+      return "No response received from Saartche. Check console for raw data structure.";
     } catch (e) {
       console.error("[Saartche] Edge Function Error:", e);
       return "Communication error with Saartche. Please try again later.";
