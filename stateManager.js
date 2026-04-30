@@ -78,7 +78,7 @@ const StateManager = {
 
     try {
       // NOTE: Ensure your Edge Function in Supabase is named exactly 'chat' or update the name below
-      const { data, error } = await supabaseClient.functions.invoke('chat', {
+      const { data, error } = await supabaseClient.functions.invoke('chat-ai', {
         body: { message }
       });
 
