@@ -73,13 +73,16 @@ const StateManager = {
   /**
    * Invokes the Supabase Edge Function to get an AI response.
    */
-  async getAIResponse(message) {
+  async getAIResponse(message, context = {}) {
     if (!supabaseClient) return "Error: AI services are currently disconnected.";
 
     try {
       // NOTE: Ensure your Edge Function in Supabase is named exactly 'chat' or update the name below
       const { data, error } = await supabaseClient.functions.invoke('chat-ai', {
-        body: { message }
+        body: { 
+          message: message,
+          context: context
+        }
       });
 
       if (error) throw error;
