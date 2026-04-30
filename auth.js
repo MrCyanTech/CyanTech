@@ -7,10 +7,10 @@ const AuthService = {
   /**
    * Validates credentials and sets session if successful.
    */
-  async login(username, password) {
-    const result = await StateManager.signIn(username, password);
+  async login(email, password) {
+    const result = await StateManager.signIn(email, password);
     if (result.success) {
-      const displayName = result.user.user_metadata?.username || result.user.email;
+      const displayName = result.user.user_metadata?.full_name || result.user.user_metadata?.username || result.user.email;
       return { success: true, username: displayName };
     }
     return { success: false, error: result.error };
@@ -22,7 +22,7 @@ const AuthService = {
   async signup(email, password, username = "") {
     const result = await StateManager.signUp(email, password, username);
     if (result.success) {
-      const displayName = result.user.user_metadata?.username || result.user.email;
+      const displayName = result.user.user_metadata?.full_name || result.user.user_metadata?.username || result.user.email;
       return { success: true, username: displayName };
     }
     return { success: false, error: result.error };

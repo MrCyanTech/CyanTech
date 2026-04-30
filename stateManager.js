@@ -31,8 +31,8 @@ const StateManager = {
     if (supabaseClient) {
       const { data: { session } } = await supabaseClient.auth.getSession();
       if (session) {
-        // Return display username if available, otherwise fallback to email
-        return session.user.user_metadata?.username || session.user.email;
+        // Check for full_name (which populates the Dashboard column), then username
+        return session.user.user_metadata?.full_name || session.user.user_metadata?.username || session.user.email;
       }
     }
     return null;
@@ -44,7 +44,10 @@ const StateManager = {
       email, 
       password,
       options: {
-        data: { username: username }
+        data: { 
+          username: username,
+          full_name: username // Supabase Dashboard looks for this specific key to fill the "Display Name" column
+        }
       }
     });
     if (error) return { success: false, error: error.message };
