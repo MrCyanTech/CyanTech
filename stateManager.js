@@ -83,7 +83,17 @@ const StateManager = {
       });
 
       if (error) throw error;
-      return data.response || "No response received from AI core.";
+      
+      console.log("[CYAN-AI] Raw Data Received:", data);
+
+      // Intelligently parse the response depending on how the Edge Function formatted it
+      const aiText = data.response 
+                  || data.choices?.[0]?.message?.content // Raw OpenRouter/OpenAI format
+                  || data.reply 
+                  || data.message
+                  || (typeof data === 'string' ? data : null);
+
+      return aiText || "No response received from AI core. Check the browser console to see the raw data format.";
     } catch (e) {
       console.error("AI Function Error:", e);
       return "Communication error with AI core. Please try again later.";
