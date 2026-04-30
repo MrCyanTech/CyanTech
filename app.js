@@ -154,13 +154,36 @@ function toggleChat() {
   }
 }
 
+function parseMarkdown(text) {
+  return text
+    // Encode basic HTML entities to prevent XSS attacks
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    // Code Blocks
+    .replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>')
+    // Inline Code
+    .replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>')
+    // Bold
+    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+    // Underline (Double underscore)
+    .replace(/__([^_]+)__/g, '<u>$1</u>')
+    // Italic (Single asterisk or single underscore)
+    .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+    .replace(/_([^_]+)_/g, '<em>$1</em>')
+    // Newlines
+    .replace(/\n/g, '<br>');
+}
+
 function addMessage(text, sender) {
   const msgDiv = document.createElement("div");
   msgDiv.className = `ai-message ${sender}`;
-  msgDiv.textContent = text;
+  // Use innerHTML to render the parsed markdown, textContent escapes everything
+  msgDiv.innerHTML = parseMarkdown(text);
   aiChatMessages.appendChild(msgDiv);
   aiChatMessages.scrollTop = aiChatMessages.scrollHeight;
 }
+
 
 async function handleSendMessage() {
   const text = aiChatInput.value.trim();

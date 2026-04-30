@@ -394,6 +394,42 @@ p {
   border-bottom-right-radius: 2px;
 }
 
+/* AI Message Markdown Formatting */
+.ai-message strong {
+  color: var(--color-cyan, #00f3ff);
+  font-weight: 600;
+}
+.ai-message em {
+  font-style: italic;
+  color: #bae6fd;
+}
+.ai-message u {
+  text-decoration: underline;
+  text-decoration-color: #38bdf8;
+}
+.ai-message .inline-code {
+  background: rgba(15, 23, 42, 0.8);
+  color: #7dd3fc;
+  padding: 2px 5px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 0.9em;
+  border: 1px solid rgba(56, 189, 248, 0.2);
+}
+.ai-message pre {
+  background: rgba(2, 6, 23, 0.9);
+  padding: 12px;
+  border-radius: 8px;
+  overflow-x: auto;
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  margin: 8px 0;
+}
+.ai-message pre code {
+  color: #e0f2fe;
+  font-family: monospace;
+  font-size: 0.85em;
+}
+
 .ai-chat-input-area {
   padding: 15px;
   background: rgba(15, 23, 42, 0.5);
