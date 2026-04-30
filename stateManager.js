@@ -88,7 +88,7 @@ const StateManager = {
 
       if (error) throw error;
       
-      console.log("[CYAN-AI] Raw Data Received:", data);
+      console.log("[Saartche] Raw Data Received:", data);
 
       // Intelligently parse the response depending on how the Edge Function formatted it
       const aiText = data.response 

@@ -1,6 +1,6 @@
 /**
  * aiController.js
- * Responsibility: Centralized intelligence for the CYAN-AI Assistant.
+ * Responsibility: Centralized intelligence for the Saartche Assistant.
  * Handles intent parsing, context-aware responses, and action suggestions.
  */
 
@@ -19,7 +19,7 @@ const AIController = {
       responses: [
         "Greetings, Engineer. How can I assist your research today?",
         "System online. Ready for technical queries.",
-        "Hello. I am CYAN-AI. Monitoring all systems."
+        "Hello. I am Saartche. Monitoring all systems."
       ]
     }
   },
@@ -34,7 +34,7 @@ const AIController = {
   },
 
   async getResponse(input) {
-    console.log(`[CYAN-AI] Sending query to Edge Function: "${input}"`);
+    console.log(`[Saartche] Sending query to Edge Function: "${input}"`);
     
     // [DEBUGGING] Temporarily simplified context payload to isolate OpenRouter failure.
     // The backend is currently rejecting the payload, completely disabled context parameter.
