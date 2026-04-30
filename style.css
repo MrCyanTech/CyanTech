@@ -387,6 +387,25 @@ p {
   border-bottom-left-radius: 2px;
 }
 
+/* AI Loading Indicator */
+.loading-indicator {
+  font-style: italic;
+  color: #7dd3fc;
+  opacity: 0.8;
+}
+.loading-indicator .dots {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  animation: dots-blink 1.5s infinite steps(4, end);
+  width: 0px;
+}
+@keyframes dots-blink {
+  to {
+    width: 1.25em;
+  }
+}
+
 .ai-message.user {
   align-self: flex-end;
   background: rgba(56, 189, 248, 0.3);

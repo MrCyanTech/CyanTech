@@ -175,13 +175,43 @@ function parseMarkdown(text) {
     .replace(/\n/g, '<br>');
 }
 
-function addMessage(text, sender) {
+function typewriteHTML(element, html, speed = 15) {
+  let i = 0;
+  
+  function type() {
+    if (i <= html.length) {
+      // If we hit an HTML tag, skip to the end of it instantly so we don't slice it in half
+      if (html[i] === '<') {
+        while (html[i] !== '>' && i < html.length) i++;
+      }
+      
+      element.innerHTML = html.slice(0, i);
+      aiChatMessages.scrollTop = aiChatMessages.scrollHeight;
+      
+      if (i < html.length) {
+        i++;
+        setTimeout(type, speed);
+      }
+    }
+  }
+  type();
+}
+
+function addMessage(text, sender, typewrite = false) {
   const msgDiv = document.createElement("div");
   msgDiv.className = `ai-message ${sender}`;
-  // Use innerHTML to render the parsed markdown, textContent escapes everything
-  msgDiv.innerHTML = parseMarkdown(text);
   aiChatMessages.appendChild(msgDiv);
+  
+  const parsedHTML = parseMarkdown(text);
+  
+  if (typewrite && sender === 'ai') {
+    typewriteHTML(msgDiv, parsedHTML);
+  } else {
+    msgDiv.innerHTML = parsedHTML;
+  }
+  
   aiChatMessages.scrollTop = aiChatMessages.scrollHeight;
+  return msgDiv;
 }
 
 
@@ -192,16 +222,24 @@ async function handleSendMessage() {
   addMessage(text, "user");
   aiChatInput.value = "";
 
-  // Show a temporary "thinking" message or just disable input if desired
-  // For now, we will just await the response directly
+  // Show a temporary "thinking" message
+  const loadingIndicator = document.createElement("div");
+  loadingIndicator.className = "ai-message ai loading-indicator";
+  loadingIndicator.innerHTML = "Processing<span class='dots'>...</span>";
+  aiChatMessages.appendChild(loadingIndicator);
+  aiChatMessages.scrollTop = aiChatMessages.scrollHeight;
+
   try {
     const response = await AIController.getResponse(text);
-    addMessage(response, "ai");
+    loadingIndicator.remove(); // Remove loading state
+    addMessage(response, "ai", true); // Pass true to enable typewriter effect
   } catch (error) {
     console.error("Chat Error:", error);
+    loadingIndicator.remove();
     addMessage("Connection to AI core interrupted.", "ai");
   }
 }
+
 
 aiChatToggle.addEventListener("click", toggleChat);
 closeChatBtn.addEventListener("click", toggleChat);
