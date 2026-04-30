@@ -155,24 +155,47 @@ function toggleChat() {
 }
 
 function parseMarkdown(text) {
-  return text
-    // Encode basic HTML entities to prevent XSS attacks
+  // Encode basic HTML entities to prevent XSS attacks
+  let html = text
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    // Code Blocks
-    .replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>')
-    // Inline Code
-    .replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>')
-    // Bold
-    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
-    // Underline (Double underscore)
-    .replace(/__([^_]+)__/g, '<u>$1</u>')
-    // Italic (Single asterisk or single underscore)
-    .replace(/\*([^*]+)\*/g, '<em>$1</em>')
-    .replace(/_([^_]+)_/g, '<em>$1</em>')
-    // Newlines
-    .replace(/\n/g, '<br>');
+    .replace(/>/g, '&gt;');
+
+  // Code Blocks (must come first to protect contents)
+  html = html.replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
+
+  // Inline Code
+  html = html.replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>');
+
+  // Headers (## Heading → <strong> styled text)
+  html = html.replace(/^### (.+)$/gm, '<strong style="color:#7dd3fc;font-size:0.95em;">$1</strong>');
+  html = html.replace(/^## (.+)$/gm, '<strong style="color:#38bdf8;font-size:1em;">$1</strong>');
+  html = html.replace(/^# (.+)$/gm, '<strong style="color:#38bdf8;font-size:1.1em;">$1</strong>');
+
+  // Horizontal rules
+  html = html.replace(/^---$/gm, '<hr style="border:none;border-top:1px solid rgba(56,189,248,0.2);margin:8px 0;">');
+
+  // Bold
+  html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+
+  // Underline (Double underscore)
+  html = html.replace(/__([^_]+)__/g, '<u>$1</u>');
+
+  // Italic (Single asterisk or single underscore)
+  html = html.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+  html = html.replace(/_([^_]+)_/g, '<em>$1</em>');
+
+  // Bullet lists (lines starting with - or * followed by a space)
+  html = html.replace(/^\* (.+)$/gm, '• $1');
+  html = html.replace(/^- (.+)$/gm, '• $1');
+
+  // Numbered lists (lines starting with 1. 2. etc.)
+  html = html.replace(/^\d+\. (.+)$/gm, '<span style="margin-left:4px;">$&</span>');
+
+  // Newlines
+  html = html.replace(/\n/g, '<br>');
+
+  return html;
 }
 
 function typewriteHTML(element, html, speed = 15) {
