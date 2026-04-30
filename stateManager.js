@@ -73,12 +73,12 @@ const StateManager = {
   /**
    * Invokes the Supabase Edge Function (Gemini 1.5 Flash) to get an AI response.
    */
-  async getAIResponse(message) {
+  async getAIResponse(message, context = {}) {
     if (!supabaseClient) return "Error: AI services are currently disconnected.";
 
     try {
       const { data, error } = await supabaseClient.functions.invoke('chat-ai', {
-        body: { message }
+        body: { message, context }
       });
 
       if (error) throw error;

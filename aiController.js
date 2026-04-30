@@ -35,7 +35,18 @@ const AIController = {
 
   async getResponse(input) {
     console.log(`[Saartche] Sending query: "${input}"`);
-    const response = await StateManager.getAIResponse(input);
+
+    const user = await StateManager.getSessionUser();
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    const pageDescription = this.PAGE_CONTEXTS[currentPage] || "You are within the CyanTech digital ecosystem.";
+
+    const response = await StateManager.getAIResponse(input, {
+      currentPage: currentPage,
+      pageDescription: pageDescription,
+      userStatus: user ? `Authorized Engineer (ID: ${user})` : 'Unidentified Guest',
+      platformInfo: "CyanTech is an advanced engineering environment specialized in semiconductor research and space-grade systems. You are Saartche, the platform's AI assistant. Respond concisely in a professional, high-tech engineering tone. Available navigation: Enter Lab (research laboratory), Semiconductor Sim (hardware simulation), Progress Log (milestone tracker), Data Console (under development), Platform Info (under development), Contact Us (admin communication)."
+    });
+
     return response;
   },
 
