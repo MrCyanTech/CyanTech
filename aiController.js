@@ -37,10 +37,8 @@ const AIController = {
     console.log(`[CYAN-AI] Sending query to Edge Function: "${input}"`);
     
     // [DEBUGGING] Temporarily simplified context payload to isolate OpenRouter failure.
-    // The backend is currently rejecting the enriched payload, likely due to JSON stringification issues.
-    const response = await StateManager.getAIResponse(input, {
-      currentPage: window.location.pathname
-    });
+    // The backend is currently rejecting the payload, completely disabled context parameter.
+    const response = await StateManager.getAIResponse(input);
     
     return response;
   },

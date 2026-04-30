@@ -80,10 +80,11 @@ const StateManager = {
       // NOTE: Ensure your Edge Function in Supabase is named exactly 'chat' or update the name below
       const { data, error } = await supabaseClient.functions.invoke('chat-ai', {
         body: { 
-          message: message,
-          context: context
+          message: message
+          // [DEBUGGING] Context temporarily disabled
         }
       });
+
 
       if (error) throw error;
       
