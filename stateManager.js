@@ -83,21 +83,21 @@ const StateManager = {
 
       if (error) throw error;
 
-      // Debug: log the full structure so we can see exactly what key holds the text
-      console.log("[Saartche] Response received:", data);
-      console.log("[Saartche] Type:", typeof data);
-      if (data && typeof data === 'object') {
-        console.log("[Saartche] Keys:", Object.keys(data));
+      // If the Edge Function returned a raw JSON string, parse it first
+      let parsed = data;
+      if (typeof data === 'string') {
+        try { parsed = JSON.parse(data); } catch (_) { return data; }
       }
 
+      console.log("[Saartche] Response received:", parsed);
+
       // Handle every possible response format
-      if (typeof data === 'string') return data;
-      if (data?.reply) return data.reply;
-      if (data?.response) return data.response;
-      if (data?.message) return data.message;
-      if (data?.text) return data.text;
-      if (data?.content) return data.content;
-      if (data?.choices?.[0]?.message?.content) return data.choices[0].message.content;
+      if (typeof parsed === 'string') return parsed;
+      if (parsed?.reply) return parsed.reply;
+      if (parsed?.response) return parsed.response;
+      if (parsed?.message) return parsed.message;
+      if (parsed?.text) return parsed.text;
+      if (parsed?.content) return parsed.content;
 
       return "No response received from Saartche. Check console for raw data structure.";
     } catch (e) {
