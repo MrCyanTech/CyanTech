@@ -179,17 +179,23 @@ function typewriteHTML(element, html, speed = 15) {
   let i = 0;
   
   function type() {
-    if (i <= html.length) {
-      // If we hit an HTML tag, skip to the end of it instantly so we don't slice it in half
+    if (i < html.length) {
+      // If we hit an HTML tag, skip the entire tag instantly
       if (html[i] === '<') {
-        while (html[i] !== '>' && i < html.length) i++;
-      }
-      
-      element.innerHTML = html.slice(0, i);
-      aiChatMessages.scrollTop = aiChatMessages.scrollHeight;
-      
-      if (i < html.length) {
+        const tagEnd = html.indexOf('>', i);
+        if (tagEnd !== -1) {
+          i = tagEnd + 1;
+        } else {
+          i++;
+        }
+        // Render up to the current position and immediately continue to next character
+        element.innerHTML = html.slice(0, i);
+        aiChatMessages.scrollTop = aiChatMessages.scrollHeight;
+        setTimeout(type, 0);
+      } else {
         i++;
+        element.innerHTML = html.slice(0, i);
+        aiChatMessages.scrollTop = aiChatMessages.scrollHeight;
         setTimeout(type, speed);
       }
     }
