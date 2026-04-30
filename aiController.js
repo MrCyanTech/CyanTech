@@ -36,26 +36,10 @@ const AIController = {
   async getResponse(input) {
     console.log(`[CYAN-AI] Sending query to Edge Function: "${input}"`);
     
-    // Gather rich context from the frontend
-    const user = await StateManager.getSessionUser();
-    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-    const pageDescription = this.PAGE_CONTEXTS[currentPage] || "You are within the CyanTech digital ecosystem.";
-    
-    // Pass a heavily enriched context object so the backend AI knows exactly what is going on
+    // [DEBUGGING] Temporarily simplified context payload to isolate OpenRouter failure.
+    // The backend is currently rejecting the enriched payload, likely due to JSON stringification issues.
     const response = await StateManager.getAIResponse(input, {
-      currentPage: currentPage,
-      pageDescription: pageDescription,
-      userStatus: user ? `Authorized Engineer (ID: ${user})` : 'Unidentified Guest',
-      platformInfo: `
-CyanTech is an advanced engineering environment specialized in semiconductor research and space-grade systems. Tone should be concise, professional, and sci-fi high-tech.
-AVAILABLE PLATFORM NAVIGATION OPTIONS:
-1. Enter Lab: The main entry point to the secure research laboratory.
-2. Semiconductor Sim: A simulation environment to model hardware characteristics before physical fabrication.
-3. Progress Log: A tracking system documenting every milestone achieved during the engineering session.
-4. Data Console: Advanced telemetry and data visualization (Currently Under Development).
-5. Platform Info: Detailed specifications of the CyanTech architecture (Currently Under Development).
-6. Contact Us: Communication relay to reach the CyanTech administrative team.
-      `.trim()
+      currentPage: window.location.pathname
     });
     
     return response;
