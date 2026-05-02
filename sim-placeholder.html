@@ -48,8 +48,9 @@
     <h1 id="sim-title">SIMULATION</h1>
     <div id="sim-text" class="typewriter-container"></div>
     
-    <div style="display: flex; justify-content: center; margin-top: 50px;">
-      <button id="back-btn" class="tech-btn hidden" style="width: 350px; height: 100px;" onclick="NavigationController.navigate('SEMICONDUCTOR_SIM')">Back</button>
+    <div id="btn-group" class="hidden" style="justify-content: center; gap: 30px; margin-top: 50px;">
+      <button id="enter-btn" class="tech-btn success" style="width: 300px; height: 100px;" onclick="NavigationController.navigate('FREE_SIMULATOR')">Enter</button>
+      <button id="back-btn" class="tech-btn" style="width: 300px; height: 100px;" onclick="NavigationController.goHome()">Back</button>
     </div>
   </div>
 
@@ -65,7 +66,7 @@
     document.getElementById('sim-title').textContent = simTitle;
 
     const container = document.getElementById("sim-text");
-    const backBtn = document.getElementById("back-btn");
+    const btnGroup = document.getElementById("btn-group");
     const text = `>> Welcome to the ${simType} simulator.\n\n>> This is where you can freely experiment and fulfill your curiosities when not working in the lab.`;
     let i = 0;
 
@@ -83,7 +84,8 @@
         }
       } else {
         container.innerHTML = text + '<span class="cursor"></span>';
-        backBtn.classList.remove("hidden");
+        btnGroup.style.display = 'flex';
+        btnGroup.classList.remove("hidden");
       }
     }
 

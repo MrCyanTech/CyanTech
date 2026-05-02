@@ -16,7 +16,8 @@ const NavigationController = {
     PROGRESS_LOG: "progress-log.html",
     UNDER_DEVELOPMENT: "under-development.html",
     LAB_CONSTRUCTION: "lab-construction.html",
-    AI_CHAT: "ai-chat.html"
+    AI_CHAT: "ai-chat.html",
+    FREE_SIMULATOR: "free-simulator.html"
   },
 
   /**
