@@ -15,7 +15,8 @@ const NavigationController = {
     SIM_PLACEHOLDER: "sim-placeholder.html",
     PROGRESS_LOG: "progress-log.html",
     UNDER_DEVELOPMENT: "under-development.html",
-    LAB_CONSTRUCTION: "lab-construction.html"
+    LAB_CONSTRUCTION: "lab-construction.html",
+    AI_CHAT: "ai-chat.html"
   },
 
   /**

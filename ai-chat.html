@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap" rel="stylesheet">
+  <title>Saartche Assistant - Full Screen | CyanTech</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="background-effects.css">
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .full-screen-chat-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      max-width: 1000px;
+      width: 95%;
+      margin: 80px auto 40px;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-radius: 20px;
+      box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .ai-chat-header {
+      padding: 20px 30px;
+      font-size: 18px;
+    }
+
+    .ai-chat-messages {
+      padding: 30px;
+      font-size: 15px;
+    }
+
+    .ai-message {
+      font-size: 15px;
+      max-width: 85%;
+    }
+
+    .ai-chat-input-area {
+      padding: 25px 30px;
+    }
+
+    #ai-chat-input {
+      height: 50px;
+      font-size: 16px;
+      padding: 0 20px;
+    }
+
+    .send-btn {
+      padding: 0 30px;
+      font-size: 14px;
+    }
+
+    .back-nav {
+      position: fixed;
+      top: 30px;
+      left: 30px;
+      z-index: 100;
+    }
+
+    /* Override mobile styles for full screen */
+    @media (max-width: 768px) {
+      .full-screen-chat-container {
+        margin: 70px 10px 20px;
+        width: calc(100% - 20px);
+      }
+      .back-nav {
+        top: 20px;
+        left: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="back-nav">
+    <button class="tech-btn nav-btn" onclick="NavigationController.goHome()">← Dashboard</button>
+  </div>
+
+  <div class="full-screen-chat-container">
+    <div class="ai-chat-header">
+      <h3>Saartche Command Interface</h3>
+    </div>
+    <div id="ai-chat-messages" class="ai-chat-messages">
+      <div class="ai-message ai">Secure terminal established. I am Saartche. How can I assist your deployment today?</div>
+    </div>
+    <div class="ai-chat-input-area">
+      <input type="text" id="ai-chat-input" placeholder="Enter command or query..." autocomplete="off">
+      <button id="send-chat" class="send-btn">Execute</button>
+    </div>
+  </div>
+
+  <div class="noise"></div>
+  <div class="scanline"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="stateManager.js"></script>
+  <script src="auth.js"></script>
+  <script src="flowRules.js"></script>
+  <script src="flowEngine.js"></script>
+  <script src="navigationController.js"></script>
+  <script src="background-effects.js"></script>
+  <script src="aiController.js"></script>
+  
+  <script>
+    // Minimal logic for the full-screen chat, reusing patterns from app.js
+    const aiChatInput = document.getElementById("ai-chat-input");
+    const sendChatBtn = document.getElementById("send-chat");
+    const aiChatMessages = document.getElementById("ai-chat-messages");
+
+    // Reuse the parser from app.js (we should ideally move this to a shared file, but for now we'll duplicate or reference)
+    // For now, I'll copy the helper functions to keep it self-contained
+    
+    function parseMarkdown(text) {
+      let html = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      html = html.replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
+      html = html.replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>');
+      html = html.replace(/^### (.+)$/gm, '<strong style="color:#7dd3fc;font-size:0.95em;">$1</strong>');
+      html = html.replace(/^## (.+)$/gm, '<strong style="color:#38bdf8;font-size:1em;">$1</strong>');
+      html = html.replace(/^# (.+)$/gm, '<strong style="color:#38bdf8;font-size:1.1em;">$1</strong>');
+      html = html.replace(/^---$/gm, '<hr style="border:none;border-top:1px solid rgba(56,189,248,0.2);margin:8px 0;">');
+      html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+      html = html.replace(/__([^_]+)__/g, '<u>$1</u>');
+      html = html.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+      html = html.replace(/_([^_]+)_/g, '<em>$1</em>');
+      html = html.replace(/^\* (.+)$/gm, '• $1');
+      html = html.replace(/^- (.+)$/gm, '• $1');
+      html = html.replace(/^\d+\. (.+)$/gm, '<span style="margin-left:4px;">$&</span>');
+      html = html.replace(/\n/g, '<br>');
+      return html;
+    }
+
+    function typewriteHTML(element, html, speed = 15) {
+      let i = 0;
+      function type() {
+        if (i < html.length) {
+          if (html[i] === '<') {
+            const tagEnd = html.indexOf('>', i);
+            i = (tagEnd !== -1) ? tagEnd + 1 : i + 1;
+            element.innerHTML = html.slice(0, i);
+            aiChatMessages.scrollTop = aiChatMessages.scrollHeight;
+            setTimeout(type, 0);
+          } else {
+            i++;
+            element.innerHTML = html.slice(0, i);
+            aiChatMessages.scrollTop = aiChatMessages.scrollHeight;
+            setTimeout(type, speed);
+          }
+        }
+      }
+      type();
+    }
+
+    function addMessage(text, sender, typewrite = false) {
+      const msgDiv = document.createElement("div");
+      msgDiv.className = `ai-message ${sender}`;
+      aiChatMessages.appendChild(msgDiv);
+      const parsedHTML = parseMarkdown(text);
+      if (typewrite && sender === 'ai') {
+        typewriteHTML(msgDiv, parsedHTML);
+      } else {
+        msgDiv.innerHTML = parsedHTML;
+      }
+      aiChatMessages.scrollTop = aiChatMessages.scrollHeight;
+      return msgDiv;
+    }
+
+    async function handleSendMessage() {
+      const text = aiChatInput.value.trim();
+      if (!text) return;
+      addMessage(text, "user");
+      aiChatInput.value = "";
+      const loadingIndicator = document.createElement("div");
+      loadingIndicator.className = "ai-message ai loading-indicator";
+      loadingIndicator.innerHTML = "Processing<span class='dots'>...</span>";
+      aiChatMessages.appendChild(loadingIndicator);
+      aiChatMessages.scrollTop = aiChatMessages.scrollHeight;
+      try {
+        const response = await AIController.getResponse(text);
+        loadingIndicator.remove();
+        addMessage(response, "ai", true);
+      } catch (error) {
+        console.error("Chat Error:", error);
+        loadingIndicator.remove();
+        addMessage("Connection to AI core interrupted.", "ai");
+      }
+    }
+
+    sendChatBtn.addEventListener("click", handleSendMessage);
+    aiChatInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") handleSendMessage();
+    });
+
+    // Auto-focus input on load
+    window.onload = () => aiChatInput.focus();
+  </script>
+</body>
+</html>

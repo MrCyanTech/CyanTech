@@ -248,6 +248,12 @@ async function handleSendMessage() {
   const text = aiChatInput.value.trim();
   if (!text) return;
 
+  if (text === "/ddploy") {
+    NavigationController.navigate('AI_CHAT');
+    aiChatInput.value = "";
+    return;
+  }
+
   addMessage(text, "user");
   aiChatInput.value = "";
 
